@@ -1,0 +1,63 @@
+﻿@model Proyecto_Web.Entities.Categoria
+
+<body>
+    @using (Html.BeginForm("RegistrarCategoria", "Categoria", FormMethod.Post))
+    {
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title">
+                        <h2>Registrar Nueva Categoría</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", @placeholder = "Nombre" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fa fa-info-circle"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Descripcion, new { @class = "form-control", @placeholder = "Descripción" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fa fa-info-circle"></span>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        @Html.TextBoxFor(m => m.RutaImagen, new { @class = "form-control", @placeholder = "Ruta de la Imagen" })
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fa fa-image"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Estado, new { @class = "form-control", @placeholder = "Estado" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fa fa-flag"></span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Procesar</button>
+                    </div>
+                </div>
+            </div>
+        <br />
+        <br />
+    }
+
+   
+</body>

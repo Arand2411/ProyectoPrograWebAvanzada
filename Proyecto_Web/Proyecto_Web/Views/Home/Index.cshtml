@@ -1,7 +1,33 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Categorías";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-</div>
+<section class="shop-blog section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title">
+                    <h2>Nuestras Categorías</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var categoria in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-12">
+                   
+                    <div class="shop-single-blog">
+                        <img src="@categoria.RUTA_IMAGEN" alt="Imagen de la categoría">
+                        <div class="content">
+                            <h3>@categoria.NOMBRE</h3>
+                            <p>@categoria.DESCRIPCION</p>
+                            <a href="#" class="more-btn">Ver más</a>
+                        </div>
+                    </div>
+                  
+                </div>
+            }
+        </div>
+    </div>
+</section>

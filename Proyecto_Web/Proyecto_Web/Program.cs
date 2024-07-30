@@ -1,7 +1,14 @@
+using Proyecto_Web.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
+builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICategoriaModel, CategoriaModel>();
+builder.Services.AddDistributedMemoryCache();
 
 var app = builder.Build();
 
