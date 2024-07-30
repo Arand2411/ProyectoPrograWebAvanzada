@@ -1,0 +1,98 @@
+﻿@model Proyecto_Web.Entities.Producto
+
+
+<body>
+    @using (Html.BeginForm("RegistrarProducto", "Producto", FormMethod.Post))
+    {
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title">
+                        <h2>Crear Nuevo Producto</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 ">
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Descripcion, new { @class = "form-control", @placeholder = "Descripción" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fa fa-info-circle"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Precio, new { @class = "form-control", @placeholder = "Precio" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fa fa-dollar"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Cantidad, new { @class = "form-control", @placeholder = "Cantidad" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fa fa-hashtag"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Ruta_Imagen, new { @class = "form-control", @placeholder = "Ruta de la Imagen" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fa fa-image"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Ruta_Video, new { @class = "form-control", @placeholder = "Ruta del Video" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fa fa-film"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Estado, new { @class = "form-control", @placeholder = "Estado" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fa fa-flag"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.IdCategoria, new { @class = "form-control", @placeholder = "ID de Categoría" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fa fa-list"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Procesar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/notificaciones.js"></script>
+    <script>
+        @if (ViewBag.Success != null && ViewBag.Message != null)
+        {
+            <text>
+                var success = '@ViewBag.Success';
+                var message = '@ViewBag.Message';
+
+                // Convertir el valor de success en un booleano
+                window.ViewBagSuccess = success === 'True';
+                window.ViewBagMessage = message;
+            </text>
+        }
+    </script>
+</body>
