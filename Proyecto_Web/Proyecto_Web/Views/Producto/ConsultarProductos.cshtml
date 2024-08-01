@@ -1,0 +1,53 @@
+﻿@model List<Proyecto_Web.Entities.Producto>
+
+@{
+    ViewData["Title"] = "Productos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-body register-card-body">
+    <h4 class="text-center">Lista de Productos</h4>
+    <hr><br />
+
+    <table id="tabla-Productos" class="table table-hover table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>ID Producto</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Ruta Imagen</th>
+                <th>Estado</th>
+                <th>ID Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IdProducto</td>
+                    <td>@item.Descripcion</td>
+                    <td>@item.Precio</td>
+                    <td>@item.Cantidad</td>
+                    <td>
+                        <img src="@item.Ruta_Imagen" alt="Imagen del producto" style="width: 100px; height: auto;" />
+                    </td>
+                    <td>@item.Estado</td>
+                    <td>@item.IdCategoria</td>
+                    <td>
+                        <a href="@Url.Action("ActualizarProducto", "Producto", new { id = item.IdProducto })" class="text-primary">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a href="@Url.Action("EliminarProducto", "Producto", new { id = item.IdProducto })" class="text-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?');">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="~/js/ConsultaProductos.js"></script>

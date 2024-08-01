@@ -1,20 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
+using Proyecto_Web.Entities;
 using Proyecto_Web.Models;
+using Proyecto_Web.Services;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace Proyecto_Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController() : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
         public IActionResult Index()
         {
+
             return View();
         }
 
