@@ -1,0 +1,41 @@
+﻿@model List<Proyecto_Web.Entities.Categoria>
+
+@{
+    ViewData["Title"] = "Categorías";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-body register-card-body">
+    <h4 class="">Lista de Categorías</h4>
+    <hr><br />
+
+    <table id="tabla-Categorias" class="table table-hover table-dark">
+        <thead>
+            <tr>
+                <th>ID Categoría</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IdCategoria</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Descripcion</td>
+                    <td>
+                        <a href="@Url.Action("ActualizarCategoria", "Categoria", new { id = item.IdCategoria })">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a href="@Url.Action("EliminarCategoria", "Categoria", new { id = item.IdCategoria })" onclick="return confirm('¿Estás seguro de que deseas eliminar esta categoría?');">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

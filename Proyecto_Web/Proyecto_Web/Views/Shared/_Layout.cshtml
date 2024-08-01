@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <!-- Metaetiquetas -->
@@ -42,9 +42,9 @@
             align-items: center;
         }
 
-            .barra-iconos .icono-individual {
-                margin-left: 20px; /* Espaciado entre íconos */
-            }
+        .barra-iconos .icono-individual {
+            margin-left: 20px; /* Espaciado entre íconos */
+        }
     </style>
 </head>
 <body class="js">
@@ -115,6 +115,7 @@
                                             <li><i class="ti-book"></i><a href="@Url.Action("ConsultarProductos", "Producto")">Producto</a></li>
                                         </ul>
                                     </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -205,43 +206,40 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         <!-- Widget Individual -->
                         <div class="single-footer social">
-                            <h4>Contáctanos</h4>
-                            <!-- Widget Individual -->
+                            <h4>Ponte en contacto</h4>
+                            <!-- Información de contacto -->
                             <div class="contact">
                                 <ul>
-                                    <li>Dirección de la tienda</li>
-                                    <li>Dirección de la tienda</li>
-                                    <li>Dirección de la tienda</li>
-                                    <li>info@eshop.com</li>
-                                    <li>+1 800 123 1234</li>
+                                    <li>San José, Costa Rica</li>
+                                    <li>support@yourwebsite.com</li>
+                                    <li>+1 222-333-4444</li>
                                 </ul>
                             </div>
-                            <!-- Fin Widget Individual -->
-                            <ul>
-                                <li><a href="#"><i class="ti-facebook"></i></a></li>
-                                <li><a href="#"><i class="ti-twitter"></i></a></li>
-                                <li><a href="#"><i class="ti-flickr"></i></a></li>
-                                <li><a href="#"><i class="ti-instagram"></i></a></li>
-                            </ul>
                         </div>
                         <!-- Fin Widget Individual -->
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Fin Parte Superior del Pie de Página -->
+        <!--/ Fin Parte Superior del Pie de Página -->
         <div class="copyright">
             <div class="container">
                 <div class="inner">
                     <div class="row">
                         <div class="col-lg-6 col-12">
                             <div class="left">
-                                <p>Derechos de autor © 2020 <a href="http://www.wpthemesgrid.com" target="_blank">Wpthemesgrid</a> - Todos los derechos reservados.</p>
+                                <p>© 2024 YourWebsite - Todos los derechos reservados.</p>
                             </div>
                         </div>
                         <div class="col-lg-6 col-12">
                             <div class="right">
-                                <img src="~/page/images/payments.png" alt="#">
+                                <ul class="payment-icons">
+                                    <li><img src="~/page/images/payments/1.png" alt="#"></li>
+                                    <li><img src="~/page/images/payments/2.png" alt="#"></li>
+                                    <li><img src="~/page/images/payments/3.png" alt="#"></li>
+                                    <li><img src="~/page/images/payments/4.png" alt="#"></li>
+                                    <li><img src="~/page/images/payments/5.png" alt="#"></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -249,46 +247,26 @@
             </div>
         </div>
     </footer>
-    <!-- /Fin Área de Pie de Página -->
-    <!-- Jquery -->
-    <script src="~/page/js/jquery.min.js"></script>
-    <script src="~/page/js/jquery-migrate-3.0.0.js"></script>
+    <!--/ Fin Área de Pie de Página -->
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="~/page/js/jquery-ui.min.js"></script>
-    <!-- Popper JS -->
-    <script src="~/page/js/popper.min.js"></script>
-    <!-- Bootstrap JS -->
     <script src="~/page/js/bootstrap.min.js"></script>
-    <!-- Color JS -->
-    <script src="~/page/js/colors.js"></script>
-    <!-- Slicknav JS -->
+    <script src="~/page/js/popper.min.js"></script>
     <script src="~/page/js/slicknav.min.js"></script>
-    <!-- Owl Carousel JS -->
     <script src="~/page/js/owl-carousel.js"></script>
-    <!-- Magnific Popup JS -->
     <script src="~/page/js/magnific-popup.js"></script>
-    <!-- Fancybox JS -->
-    <script src="~/page/js/facnybox.min.js"></script>
-    <!-- Waypoints JS -->
     <script src="~/page/js/waypoints.min.js"></script>
-    <!-- Countdown JS -->
     <script src="~/page/js/finalcountdown.min.js"></script>
-    <!-- Nice Select JS -->
     <script src="~/page/js/nicesellect.js"></script>
-    <!-- Ytplayer JS -->
-    <script src="~/page/js/ytplayer.min.js"></script>
-    <!-- Flex Slider JS -->
     <script src="~/page/js/flex-slider.js"></script>
-    <!-- ScrollUp JS -->
     <script src="~/page/js/scrollup.js"></script>
-    <!-- Onepage Nav JS -->
     <script src="~/page/js/onepage-nav.min.js"></script>
-    <!-- Easing JS -->
     <script src="~/page/js/easing.js"></script>
-    <!-- Active JS -->
     <script src="~/page/js/active.js"></script>
-    <!-- DATATABLE JS -->
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap4.js"></script>
-    @RenderSection("Scripts", required: false)
 </body>
 </html>
