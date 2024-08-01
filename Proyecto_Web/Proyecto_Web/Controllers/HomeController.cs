@@ -2,17 +2,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Proyecto_Web.Entities;
 using Proyecto_Web.Models;
+using Proyecto_Web.Services;
 using System.Diagnostics;
 using System.Text.Json;
 
 namespace Proyecto_Web.Controllers
 {
-    public class HomeController (ICategoriaModel iCategoriaModel) : Controller
+
+    public class HomeController() : Controller
     {
+
 
         [HttpGet]
         public IActionResult Index()
         {
+
             return View();
         }
 

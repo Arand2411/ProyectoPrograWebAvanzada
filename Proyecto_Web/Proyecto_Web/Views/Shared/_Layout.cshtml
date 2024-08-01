@@ -1,67 +1,54 @@
-﻿﻿
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="es">
 <head>
- <!-- Meta Tag -->
+    <!-- Metaetiquetas -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name='copyright' content=''>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Title Tag  -->
-    <title>Eshop - eCommerce HTML5 Template.</title>
+    <!-- Título -->
+    <title>@ViewData["Title"]</title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="~/page/images/favicon.png">
-    <!-- Web Font -->
+    <!-- Fuentes web -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
-    <!-- StyleSheet -->
+    <!-- Hojas de estilo -->
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Bootstrap -->
     <link rel="stylesheet" href="~/page/css/bootstrap.css">
-    <!-- Magnific Popup -->
     <link rel="stylesheet" href="~/page/css/magnific-popup.min.css">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="~/page/css/font-awesome.css">
-    <!-- Fancybox -->
     <link rel="stylesheet" href="~/page/css/jquery.fancybox.min.css">
-    <!-- Themify Icons -->
     <link rel="stylesheet" href="~/page/css/themify-icons.css">
-    <!-- Nice Select CSS -->
     <link rel="stylesheet" href="~/page/css/niceselect.css">
-    <!-- Animate CSS -->
     <link rel="stylesheet" href="~/page/css/animate.css">
-    <!-- Flex Slider CSS -->
     <link rel="stylesheet" href="~/page/css/flex-slider.min.css">
-    <!-- Owl Carousel -->
     <link rel="stylesheet" href="~/page/css/owl-carousel.css">
-    <!-- Slicknav -->
     <link rel="stylesheet" href="~/page/css/slicknav.min.css">
-
-    <!-- Eshop StyleSheet -->
     <link rel="stylesheet" href="~/page/css/reset.css">
     <link rel="stylesheet" href="~/page/css/styleIndex.css">
     <link rel="stylesheet" href="~/page/css/responsive.css">
 
     <style>
-        .right-bar {
+        .barra-derecha {
             display: flex;
-            justify-content: flex-end; /* Alínea el contenido a la derecha */
+            justify-content: flex-end; /* Alinea el contenido a la derecha */
             align-items: center; /* Centra verticalmente los elementos */
         }
 
-        .icon-bar {
+        .barra-iconos {
             display: flex;
             align-items: center;
         }
 
-            .icon-bar .single-bar {
-                margin-left: 20px; /* Espaciado entre íconos */
-            }
+        .barra-iconos .icono-individual {
+            margin-left: 20px; /* Espaciado entre íconos */
+        }
     </style>
 </head>
 <body class="js">
-    <!-- Preloader -->
+    <!-- Precargador -->
     <div class="preloader">
         <div class="preloader-inner">
             <div class="preloader-icon">
@@ -70,54 +57,54 @@
             </div>
         </div>
     </div>
-    <!-- End Preloader -->
-    <!-- Header -->
+    <!-- Fin Precargador -->
+    <!-- Encabezado -->
     <header class="header shop">
-        <!-- Topbar -->
+        <!-- Barra Superior -->
         <div class="topbar">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-12 col-12">
                     </div>
                     <div class="col-lg-8 col-md-12 col-12">
-                        <!-- Top Right -->
-                        <!-- End Top Right -->
+                        <!-- Barra Superior Derecha -->
+                        <!-- Fin Barra Superior Derecha -->
                     </div>
                 </div>
             </div>
         </div>
-        <!-- End Topbar -->
+        <!-- Fin Barra Superior -->
         <div class="middle-inner">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-2 col-md-2 col-12">
-                        <!-- Logo and Search Form -->
+                        <!-- Logo y Formulario de Búsqueda -->
                         <div class="logo-search">
                             <!-- Logo -->
                             <div class="logo">
                                 <a href="index.html"><img src="~/page/images/logo.png" alt="logo"></a>
                             </div>
-                            <!-- Search Form -->
+                            <!-- Formulario de Búsqueda -->
                             <div class="search-bar-top">
                                 <form class="search-form">
-                                    <input name="search" placeholder="Search Products Here....." type="search">
+                                    <input name="search" placeholder="Buscar productos aquí..." type="search">
                                     <button class="btnn"><i class="ti-search"></i></button>
                                 </form>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-10 col-md-10 col-12">
-                        <div class="right-bar d-flex justify-content-end">
-                            <!-- Icons and Right Content -->
-                            <div class="icon-bar d-flex align-items-center">
-                                <div class="single-bar">
-                                    <a href="#" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                        <div class="barra-derecha d-flex justify-content-end">
+                            <!-- Iconos y Contenido Derecho -->
+                            <div class="barra-iconos d-flex align-items-center">
+                                <div class="icono-individual">
+                                    <a href="#" class="icono-individual"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                 </div>
-                                <div class="single-bar">
-                                    <a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
+                                <div class="icono-individual">
+                                    <a href="#" class="icono-individual"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
                                 </div>
-                                <div class="single-bar shopping">
-                                    <a href="#" class="single-icon"><i class="ti-bag"></i> <span class="total-count">2</span></a>
+                                <div class="icono-individual shopping">
+                                    <a href="#" class="icono-individual"><i class="ti-bag"></i> <span class="total-count">2</span></a>
                                 </div>
                                 <div class="single-bar">
                                     <div class="right-content">
@@ -126,9 +113,6 @@
                                             <li><i class="ti-power-off"></i><a href="@Url.Action("LoginUsuario", "Usuario")">Login</a></li>
                                             <li><i class="ti-pencil"></i><a href="@Url.Action("RegistrarProducto", "Producto")">Producto</a></li>
                                             <li><i class="ti-book"></i><a href="@Url.Action("ConsultarProductos", "Producto")">Producto</a></li>
-                                            <li><i class="ti-pencil"></i><a href="@Url.Action("RegistrarCategoria", "Categoria")">Categoria</a></li>
-                                            <li><i class="ti-book"></i><a href="@Url.Action("ConsultarCategorias", "Categoria")">Categoria</a></li>
-
                                         </ul>
                                     </div>
                                 </div>
@@ -139,126 +123,123 @@
             </div>
         </div>
 
-        <!-- Header Inner -->
+        <!-- Encabezado Interior -->
         <div class="header-inner">
             <div class="container">
                 <div class="cat-nav-head">
                     <div class="row">
                         <div class="col-lg-3">
                             <div class="all-category">
-                                <h3 class="cat-heading"><i class="fa fa-bars" aria-hidden="true"></i>CATEGORIES</h3>
+                                <h3 class="cat-heading"><i class="fa fa-bars" aria-hidden="true"></i>CATEGORÍAS</h3>
                             </div>
                         </div>
                         <div class="col-lg-9 col-12">
                             <div class="menu-area">
-                                <!-- Main Menu -->
+                                <!-- Menú Principal -->
                                 <nav class="navbar navbar-expand-lg">
                                     <div class="navbar-collapse">
                                         <div class="nav-inner">
                                             <ul class="nav main-menu menu navbar-nav">
-                                                <li class="active"><a href="#">Home</a></li>
-                                                <li><a href="#">Product</a></li>
-                                                <li><a href="contact.html">Contact Us</a></li>
+                                                <li class="active"><a href="#">Inicio</a></li>
+                                                <li><a href="#">Producto</a></li>
+                                                <li><a href="contact.html">Contáctanos</a></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </nav>
-                                <!--/ End Main Menu -->
+                                <!--/ Fin Menú Principal -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--/ End Header Inner -->
+        <!--/ Fin Encabezado Interior -->
     </header>
 
-    <!-- /End Cowndown Area -->
-    <!-- Start Shop Blog  -->
+    <!-- /Fin Área de Cuenta Regresiva -->
+    <!-- Inicio Blog de la Tienda -->
     @RenderBody()
-    <!-- Start Footer Area -->
+    <!-- Inicio Área de Pie de Página -->
     <footer class="footer">
-        <!-- Footer Top -->
+        <!-- Parte Superior del Pie de Página -->
         <div class="footer-top section">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-5 col-md-6 col-12">
-                        <!-- Single Widget -->
+                        <!-- Widget Individual -->
                         <div class="single-footer about">
                             <div class="logo">
                                 <a href="index.html"><img src="~/page/images/logo2.png" alt="#"></a>
                             </div>
                         </div>
-                        <!-- End Single Widget -->
+                        <!-- Fin Widget Individual -->
                     </div>
                     <div class="col-lg-2 col-md-6 col-12">
-                        <!-- Single Widget -->
+                        <!-- Widget Individual -->
                         <div class="single-footer links">
-                            <h4>Information</h4>
+                            <h4>Información</h4>
                             <ul>
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">Faq</a></li>
-                                <li><a href="#">Terms & Conditions</a></li>
-                                <li><a href="#">Contact Us</a></li>
-                                <li><a href="#">Help</a></li>
+                                <li><a href="#">Sobre nosotros</a></li>
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="#">Términos y condiciones</a></li>
+                                <li><a href="#">Contáctanos</a></li>
+                                <li><a href="#">Ayuda</a></li>
                             </ul>
                         </div>
-                        <!-- End Single Widget -->
+                        <!-- Fin Widget Individual -->
                     </div>
                     <div class="col-lg-2 col-md-6 col-12">
-                        <!-- Single Widget -->
+                        <!-- Widget Individual -->
                         <div class="single-footer links">
-                            <h4>Customer Service</h4>
+                            <h4>Servicio al cliente</h4>
                             <ul>
-                                <li><a href="#">Payment Methods</a></li>
-                                <li><a href="#">Money-back</a></li>
-                                <li><a href="#">Returns</a></li>
-                                <li><a href="#">Shipping</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Métodos de pago</a></li>
+                                <li><a href="#">Reembolso</a></li>
+                                <li><a href="#">Devoluciones</a></li>
+                                <li><a href="#">Envío</a></li>
+                                <li><a href="#">Política de privacidad</a></li>
                             </ul>
                         </div>
-                        <!-- End Single Widget -->
+                        <!-- Fin Widget Individual -->
                     </div>
                     <div class="col-lg-3 col-md-6 col-12">
-                        <!-- Single Widget -->
+                        <!-- Widget Individual -->
                         <div class="single-footer social">
-                            <h4>Get In Tuch</h4>
-                            <!-- Single Widget -->
+                            <h4>Ponte en contacto</h4>
+                            <!-- Información de contacto -->
                             <div class="contact">
                                 <ul>
-                                    <li>Shop Address</li>
-                                    <li>Shop Address</li>
-                                    <li>Shop Address</li>
-                                    <li>info@eshop.com</li>
-                                    <li>+1 800 123 1234</li>
+                                    <li>San José, Costa Rica</li>
+                                    <li>support@yourwebsite.com</li>
+                                    <li>+1 222-333-4444</li>
                                 </ul>
                             </div>
-                            <!-- End Single Widget -->
-                            <ul>
-                                <li><a href="#"><i class="ti-facebook"></i></a></li>
-                                <li><a href="#"><i class="ti-twitter"></i></a></li>
-                                <li><a href="#"><i class="ti-flickr"></i></a></li>
-                                <li><a href="#"><i class="ti-instagram"></i></a></li>
-                            </ul>
                         </div>
-                        <!-- End Single Widget -->
+                        <!-- Fin Widget Individual -->
                     </div>
                 </div>
             </div>
         </div>
-        <!-- End Footer Top -->
+        <!--/ Fin Parte Superior del Pie de Página -->
         <div class="copyright">
             <div class="container">
                 <div class="inner">
                     <div class="row">
                         <div class="col-lg-6 col-12">
                             <div class="left">
-                                <p>Copyright © 2020 <a href="http://www.wpthemesgrid.com" target="_blank">Wpthemesgrid</a>  -  All Rights Reserved.</p>
+                                <p>© 2024 YourWebsite - Todos los derechos reservados.</p>
                             </div>
                         </div>
                         <div class="col-lg-6 col-12">
                             <div class="right">
-                                <img src="~/page/images/payments.png" alt="#">
+                                <ul class="payment-icons">
+                                    <li><img src="~/page/images/payments/1.png" alt="#"></li>
+                                    <li><img src="~/page/images/payments/2.png" alt="#"></li>
+                                    <li><img src="~/page/images/payments/3.png" alt="#"></li>
+                                    <li><img src="~/page/images/payments/4.png" alt="#"></li>
+                                    <li><img src="~/page/images/payments/5.png" alt="#"></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -266,45 +247,26 @@
             </div>
         </div>
     </footer>
-    <!-- /End Footer Area -->
-    <!-- Jquery -->
-    <script src="~/page/js/jquery.min.js"></script>
-    <script src="~/page/js/jquery-migrate-3.0.0.js"></script>
+    <!--/ Fin Área de Pie de Página -->
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="~/page/js/jquery-ui.min.js"></script>
-    <!-- Popper JS -->
-    <script src="~/page/js/popper.min.js"></script>
-    <!-- Bootstrap JS -->
     <script src="~/page/js/bootstrap.min.js"></script>
-    <!-- Color JS -->
-    <script src="~/page/js/colors.js"></script>
-    <!-- Slicknav JS -->
+    <script src="~/page/js/popper.min.js"></script>
     <script src="~/page/js/slicknav.min.js"></script>
-    <!-- Owl Carousel JS -->
     <script src="~/page/js/owl-carousel.js"></script>
-    <!-- Magnific Popup JS -->
     <script src="~/page/js/magnific-popup.js"></script>
-    <!-- Fancybox JS -->
-    <script src="~/page/js/facnybox.min.js"></script>
-    <!-- Waypoints JS -->
     <script src="~/page/js/waypoints.min.js"></script>
-    <!-- Countdown JS -->
     <script src="~/page/js/finalcountdown.min.js"></script>
-    <!-- Nice Select JS -->
     <script src="~/page/js/nicesellect.js"></script>
-    <!-- Ytplayer JS -->
-    <script src="~/page/js/ytplayer.min.js"></script>
-    <!-- Flex Slider JS -->
     <script src="~/page/js/flex-slider.js"></script>
-    <!-- ScrollUp JS -->
     <script src="~/page/js/scrollup.js"></script>
-    <!-- Onepage Nav JS -->
     <script src="~/page/js/onepage-nav.min.js"></script>
-    <!-- Easing JS -->
     <script src="~/page/js/easing.js"></script>
-    <!-- Active JS -->
     <script src="~/page/js/active.js"></script>
-    <!-- DATATABLE JS -->
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap4.js"></script>
 </body>
 </html>
