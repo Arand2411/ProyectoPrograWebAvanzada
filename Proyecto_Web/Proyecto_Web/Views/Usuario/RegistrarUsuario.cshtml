@@ -1,0 +1,99 @@
+﻿@model Proyecto_Web.Entities.UsuarioEnt
+
+@{
+    Layout = null;
+}
+
+<link rel="icon" href="~/img/logot.png" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name='copyright' content=''>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Eshop - eCommerce HTML5 Template.</title>
+<link rel="icon" type="image/png" href="~/page/images/favicon.png">
+<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="~/page/css/bootstrap.css">
+<link rel="stylesheet" href="~/page/css/magnific-popup.min.css">
+<link rel="stylesheet" href="~/page/css/font-awesome.css">
+<link rel="stylesheet" href="~/page/css/jquery.fancybox.min.css">
+<link rel="stylesheet" href="~/page/css/themify-icons.css">
+<link rel="stylesheet" href="~/page/css/niceselect.css">
+<link rel="stylesheet" href="~/page/css/animate.css">
+<link rel="stylesheet" href="~/page/css/flex-slider.min.css">
+<link rel="stylesheet" href="~/page/css/owl-carousel.css">
+<link rel="stylesheet" href="~/page/css/slicknav.min.css">
+<link rel="stylesheet" href="~/page/css/reset.css">
+<link rel="stylesheet" href="~/page/css/styleIndex.css">
+<link rel="stylesheet" href="~/page/css/responsive.css">
+
+<style>
+    .register-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .register-card {
+        width: 100%;
+        max-width: 400px;
+    }
+</style>
+
+<div class="container register-container">
+    <div class="card o-hidden border-0 shadow-lg register-card">
+        <div class="card-body p-0">
+            <div class="p-5">
+                <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Rellene la Información</h1>
+                </div>
+                <form class="user" asp-action="RegistrarUsuario" method="post">
+                    <div class="form-group">
+                        <input asp-for="Identificacion" class="form-control form-control-user" placeholder="Identificación" required />
+                        <span asp-validation-for="Identificacion" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="Nombre" class="form-control form-control-user" placeholder="Nombre" required />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="Correo" class="form-control form-control-user" placeholder="Correo" required />
+                        <span asp-validation-for="Correo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="Contrasenna" class="form-control form-control-user" placeholder="Contraseña" type="password" required />
+                        <span asp-validation-for="Contrasenna" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <select asp-for="IdRol" class="form-selection form-control-user">
+                            <option value="">Seleccione un rol</option>
+                            @foreach (var rol in ViewBag.Roles)
+                            {
+                                <option value="@rol.Value">@rol.Text</option>
+                            }
+                        </select>
+                        <span asp-validation-for="IdRol" class="text-danger"></span>
+                    </div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <button type="submit" class="btn btn-tienda btn-user btn-block">
+                        Registrarse
+                    </button>
+                </form>
+                <hr>
+                <div class="text-center">
+                    <a class="small" asp-action="LoginUsuario" asp-controller="Usuario">Volver</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/js/sb-admin-2.min.js"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
