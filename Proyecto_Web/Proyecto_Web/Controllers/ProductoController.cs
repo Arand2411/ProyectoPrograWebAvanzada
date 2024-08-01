@@ -1,13 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Proyecto_Web.Services;
-using Proyecto_Web.Models;
 using Proyecto_Web.Entities;
 using System.Text.Json;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Proyecto_Web.Controllers
 {
-    public class ProductoController(IProductoModel iProductoModel, IComunModel iComunModel) : Controller
+    public class ProductoController : Controller
     {
+        private readonly IProductoModel _iProductoModel;
+
+        public ProductoController(IProductoModel iProductoModel)
+        {
+            _iProductoModel = iProductoModel;
+        }
 
         [HttpGet]
         public IActionResult RegistrarProducto()
@@ -16,9 +24,9 @@ namespace Proyecto_Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegistrarProducto(Producto ent)
+        public async Task<IActionResult> RegistrarProducto(Producto ent)
         {
-            var resp = iProductoModel.RegistrarProducto(ent);
+            var resp = await _iProductoModel.RegistrarProducto(ent);
 
             if (resp.Codigo == 1)
             {
@@ -33,10 +41,11 @@ namespace Proyecto_Web.Controllers
 
             return View();
         }
+
         [HttpGet]
-        public IActionResult ConsultarProductos()
+        public async Task<IActionResult> ConsultarProductos()
         {
-            var resp = iProductoModel.ConsultarProductos();
+            var resp = await _iProductoModel.ConsultarProductos();
 
             if (resp.Codigo == 1)
             {
@@ -47,5 +56,44 @@ namespace Proyecto_Web.Controllers
             return View(new List<Producto>());
         }
 
+        [HttpGet]
+        public IActionResult ActualizarProducto()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ActualizarProducto(Producto ent)
+        {
+            var respuestaModelo = await _iProductoModel.ActualizarProducto(ent);
+
+            if (respuestaModelo.Codigo == 1)
+            {
+                ViewBag.Success = true;
+                ViewBag.Message = "Producto actualizado exitosamente.";
+            }
+            else
+            {
+                ViewBag.Success = false;
+                ViewBag.Message = respuestaModelo.Mensaje;
+            }
+
+            return View(ent);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EliminarProducto(int idProducto)
+        {
+            var respuestaModelo = await _iProductoModel.EliminarProducto(idProducto);
+            if (respuestaModelo.Codigo == 1)
+            {
+                return RedirectToAction("ConsultarProductos");
+            }
+            else
+            {
+                ViewBag.MsjPantalla = respuestaModelo.Mensaje;
+                return View();
+            }
+        }
     }
 }

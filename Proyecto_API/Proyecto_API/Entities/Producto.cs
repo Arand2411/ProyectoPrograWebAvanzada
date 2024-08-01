@@ -7,7 +7,6 @@
         public decimal? Precio { get; set; }
         public int? Cantidad { get; set; }
         public string? Ruta_Imagen { get; set; }
-        public string? Ruta_Video { get; set; }
         public char? Estado { get; set; }
         public int? IdCategoria { get; set; }
 
