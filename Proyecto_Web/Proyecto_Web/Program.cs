@@ -9,7 +9,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<ICategoriaModel, CategoriaModel>();
 builder.Services.AddSingleton<IUsuarioModel, UsuarioModel>();
 builder.Services.AddSingleton<IComunModel, ComunModel>();
 builder.Services.AddScoped<IProductoModel, ProductoModel>();
