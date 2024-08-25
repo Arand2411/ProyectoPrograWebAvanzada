@@ -1,83 +1,127 @@
-﻿using Proyecto_Web.Entities;
+﻿
+using Proyecto_Web.Entities;
 using Proyecto_Web.Services;
+using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text.Json;
-using static Proyecto_Web.Entities.UsuarioEnt;
 
 namespace Proyecto_Web.Models
 {
-    public class UsuarioModel : IUsuarioModel
+    public class UsuarioModel(HttpClient httpClient, IConfiguration iConfiguration, IHttpContextAccessor iContextAccesor) : IUsuarioModel
     {
-        private readonly HttpClient _httpClient;
-        private readonly IConfiguration _iConfiguration;
-        private readonly IHttpContextAccessor _iContextAccesor;
-
-        public UsuarioModel(HttpClient httpClient, IConfiguration iConfiguration, IHttpContextAccessor iContextAccesor)
+        public Respuesta RegistrarUsuario(Usuario ent)
         {
-            _httpClient = httpClient;
-            _iConfiguration = iConfiguration;
-            _iContextAccesor = iContextAccesor;
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/RegistrarUsuario";
+                JsonContent body = JsonContent.Create(ent);
+                var resp = httpClient.PostAsync(url, body).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
         }
 
-        public async Task<UsuarioRespuesta?> RegistrarUsuarioAsync(UsuarioEnt entidad)
+        public Respuesta IniciarSesion(Usuario ent)
         {
-            string url = _iConfiguration.GetSection("settings:UrlApi").Value + "api/Usuario/RegistrarUsuario";
-            JsonContent body = JsonContent.Create(entidad);
-            var respuestaApi = await _httpClient.PostAsync(url, body);
-            if (respuestaApi.IsSuccessStatusCode)
-                return await respuestaApi.Content.ReadFromJsonAsync<UsuarioRespuesta>();
-            return null;
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/IniciarSesion";
+                JsonContent body = JsonContent.Create(ent);
+                var resp = httpClient.PostAsync(url, body).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
         }
 
-        public async Task<UsuarioRespuesta?> LoginUsuarioAsync(UsuarioEnt entidad)
+        public Respuesta ConsultarUsuarios()
         {
-            string url = _iConfiguration.GetSection("settings:UrlApi").Value + "api/Usuario/LoginUsuario";
-            JsonContent body = JsonContent.Create(entidad);
-            var respuestaApi = await _httpClient.PostAsync(url, body);
-            if (respuestaApi.IsSuccessStatusCode)
-                return await respuestaApi.Content.ReadFromJsonAsync<UsuarioRespuesta>();
-            return null;
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarUsuarios";
+                string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var resp = httpClient.GetAsync(url).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
         }
 
-        public async Task<UsuarioRespuesta?> ConsultarUsuariosAsync()
+        public Respuesta ConsultarUsuario(int Consecutivo)
         {
-            string url = _iConfiguration.GetSection("settings:UrlApi").Value + "api/Usuario/ConsultarUsuarios";
-            string token = _iContextAccesor.HttpContext!.Session.GetString("TOKEN")!;
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarUsuario?Consecutivo=" + Consecutivo;
+                string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var respuestaApi = await _httpClient.GetAsync(url);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var resp = httpClient.GetAsync(url).Result;
 
-            if (respuestaApi.IsSuccessStatusCode)
-                return await respuestaApi.Content.ReadFromJsonAsync<UsuarioRespuesta>();
-            return null;
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
         }
 
-        public async Task<UsuarioRespuesta?> ConsultarUnUsuarioAsync(int IdUsuario)
+        public Respuesta CambiarEstadoUsuario(Usuario ent)
         {
-            string url = _iConfiguration.GetSection("settings:UrlApi").Value + "api/Usuario/ConsultarUnUsuario?IdUsuario=" + IdUsuario;
-            var resp = await _httpClient.GetAsync(url);
-            if (resp.IsSuccessStatusCode)
-                return await resp.Content.ReadFromJsonAsync<UsuarioRespuesta>();
-            return null;
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/CambiarEstadoUsuario";
+                string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                JsonContent body = JsonContent.Create(ent);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var resp = httpClient.PutAsync(url, body).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
         }
 
-        public async Task<UsuarioRespuesta?> ActualizarUsuarioAsync(UsuarioEnt entidad)
+        public Respuesta ActualizarUsuario(Usuario ent)
         {
-            string url = _iConfiguration.GetSection("settings:UrlApi").Value + "api/Usuario/ActualizarUsuario";
-            JsonContent body = JsonContent.Create(entidad);
-            var respuestaApi = await _httpClient.PutAsync(url, body);
-            if (respuestaApi.IsSuccessStatusCode)
-                return await respuestaApi.Content.ReadFromJsonAsync<UsuarioRespuesta>();
-            return null;
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ActualizarUsuario";
+                string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                JsonContent body = JsonContent.Create(ent);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var resp = httpClient.PutAsync(url, body).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
         }
 
-        public async Task<UsuarioRespuesta?> EliminarUsuarioAsync(int IdUsuario)
+        public Respuesta RecuperarAcceso(string Identificacion)
         {
-            string url = _iConfiguration.GetSection("settings:UrlApi").Value + "api/Usuario/EliminarUsuario?IdUsuario=" + IdUsuario;
-            var resp = await _httpClient.DeleteAsync(url);
-            if (resp.IsSuccessStatusCode)
-                return await resp.Content.ReadFromJsonAsync<UsuarioRespuesta>();
-            return null;
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/RecuperarAcceso?Identificacion=" + Identificacion;
+
+                var resp = httpClient.GetAsync(url).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
         }
+
     }
 }

@@ -1,3 +1,4 @@
+
 using Proyecto_Web.Models;
 using Proyecto_Web.Services;
 
@@ -9,9 +10,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddSingleton<IUsuarioModel, UsuarioModel>();
+builder.Services.AddScoped<IUsuarioModel, UsuarioModel>();
 builder.Services.AddSingleton<IComunModel, ComunModel>();
 builder.Services.AddScoped<IProductoModel, ProductoModel>();
+builder.Services.AddScoped<IRolModel, RolModel>();
+
 builder.Services.AddDistributedMemoryCache();
 
 

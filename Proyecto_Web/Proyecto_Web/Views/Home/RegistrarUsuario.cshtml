@@ -1,14 +1,14 @@
-@model Proyecto_Web.Entities.Usuario
+﻿@model Proyecto_Web.Entities.Usuario
 
 @{
-    ViewData["Title"] = "Inicio Sesión";
+    ViewData["Title"] = "Registro Usuario";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 }
 
-<div class="login-box">
+<div class="register-box">
     <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">Iniciar Sesión</p>
+        <div class="card-body register-card-body">
+            <p class="login-box-msg">Registro de Usuarios</p>
 
             @if (ViewBag.msj != null)
             {
@@ -17,8 +17,24 @@
                 </div>
             }
 
-            @using (Html.BeginForm("Index", "Home"))
+            @using (Html.BeginForm("RegistrarUsuario", "Home"))
             {
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Identificacion, new { @type = "text", @class = "form-control", @placeholder = "Identificación" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Nombre, new { @type = "text", @class = "form-control", @placeholder = "Nombre" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
                 <div class="input-group mb-3">
                     @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control", @placeholder = "Correo Electrónico" })
                     <div class="input-group-append">
@@ -45,10 +61,10 @@
             }
 
             <p class="mb-1">
-                <a href="@Url.Action("RecuperarAcceso","Home")">No recuerdo mi contraseña</a>
+                <a href="@Url.Action("Recuperar Acceso","Home")">No recuerdo mi contraseña</a>
             </p>
             <p class="mb-0">
-                <a href="@Url.Action("RegistrarUsuario","Home")" class="text-center">Quiero registrarme</a>
+                <a href="@Url.Action("Index","Home")" class="text-center">Quiero iniciar sesión</a>
             </p>
         </div>
     </div>

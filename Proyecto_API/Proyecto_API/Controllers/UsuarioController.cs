@@ -4,239 +4,256 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Data;
-using static Proyecto_API.Entities.UsuarioEnt;
+using static Proyecto_API.Entities.Usuario;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.Hosting;
+using Proyecto_API.Models;
 
 namespace Proyecto_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController(IConfiguration iConfiguration) : ControllerBase
+    public class UsuarioController(IConfiguration iConfiguration, IComunesModel iComunesModel, IHostEnvironment iHost) : ControllerBase
     {
 
         [AllowAnonymous]
-        [Route("RegistrarUsuario")]
         [HttpPost]
-        public IActionResult RegistrarUsuario(UsuarioEnt ent)
+        [Route("RegistrarUsuario")]
+        public async Task<IActionResult> RegistrarUsuario(Usuario ent)
         {
-            UsuarioRespuesta usuarioRespuesta = new UsuarioRespuesta();
-            try
-            {
-                using (var db = new SqlConnection(iConfiguration.GetConnectionString("DefaultConnection")))
-                {
-                    var parametros = new
-                    {
-                        ent.Identificacion,
-                        ent.Nombre,
-                        ent.Correo,
-                        ent.Contrasenna,
-                        ent.IdRol 
-                    };
+            Respuesta resp = new Respuesta();
 
-                    var result = db.Execute("RegistrarUsuario", parametros, commandType: CommandType.StoredProcedure);
-                    if (result > 0)
-                    {
-                        usuarioRespuesta.Codigo = "1";
-                        usuarioRespuesta.Mensaje = "Usuario registrado con éxito.";
-                        return Ok(usuarioRespuesta);
-                    }
-                    else
-                    {
-                        usuarioRespuesta.Codigo = "-1";
-                        usuarioRespuesta.Mensaje = "No se pudo registrar el usuario.";
-                        return BadRequest(usuarioRespuesta);
-                    }
-                }
-            }
-            catch (Exception ex)
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                return StatusCode(500, new { message = "Ocurrió un error al registrar el usuario.", error = ex.Message });
+                var result = await context.ExecuteAsync("RegistrarUsuario", new { ent.Identificacion, ent.Nombre, ent.Correo, ent.Contrasenna }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = true;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "La información del usuario ya se encuentra registrada";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
             }
         }
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("LoginUsuario")]
-        public IActionResult LoginUsuario(UsuarioEnt ent)
+        [Route("IniciarSesion")]
+        public async Task<IActionResult> IniciarSesion(Usuario ent)
         {
-            UsuarioRespuesta usuarioRespuesta = new UsuarioRespuesta();
-            try
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                using (var db = new SqlConnection(iConfiguration.GetConnectionString("DefaultConnection")))
+                var result = await context.QueryFirstOrDefaultAsync<Usuario>("IniciarSesion", new { ent.Correo, ent.Contrasenna }, commandType: CommandType.StoredProcedure);
+
+                if (result != null)
                 {
-                    var parametros = new
-                    {
-                        ent.Correo,
-                        ent.Contrasenna
-                    };
+                    result.Token = GenerarToken(result.Consecutivo, result.IdRol);
 
-                    var usuario = db.QuerySingleOrDefault<UsuarioEnt>("LoginUsuario", parametros, commandType: CommandType.StoredProcedure);
-
-                    if (usuario != null)
-                    {
-
-                     usuario.Token = GenerarToken(usuario.IdUsuario, usuario.IdRol);
-
-                        usuarioRespuesta.Codigo = "1";
-                        usuarioRespuesta.Mensaje = "OK";
-                        usuarioRespuesta.Dato = usuario;
-                        return Ok(usuarioRespuesta);
-                    }
-                    else
-                    {
-                        usuarioRespuesta.Codigo = "-1";
-                        usuarioRespuesta.Mensaje = "La información del usuario no se encuentra registrada.";
-                        return Ok(usuarioRespuesta);
-                    }
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = result;
+                    return Ok(resp);
                 }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Ocurrió un error al intentar iniciar sesión.", error = ex.Message });
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "La información del usuario no se encuentra registrada";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
             }
         }
 
         [Authorize]
-        [Route("ConsultarUsuarios")]
         [HttpGet]
-        public IActionResult ConsultarUsuarios()
-
+        [Route("ConsultarUsuarios")]
+        public async Task<IActionResult> ConsultarUsuarios()
         {
-            if (!EsAdministrador())
+            if (!iComunesModel.EsAdministrador(User))
                 return StatusCode(403);
 
+            Respuesta resp = new Respuesta();
 
-
-
-            UsuarioRespuesta UsuarioRespuesta = new UsuarioRespuesta();
-            try
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                using (var db = new SqlConnection(iConfiguration.GetConnectionString("DefaultConnection")))
+                var result = await context.QueryAsync<Usuario>("ConsultarUsuarios", new { }, commandType: CommandType.StoredProcedure);
+
+                if (result.Count() > 0)
                 {
-                    var resultadoBD = db.Query<UsuarioEnt>("ConsultarUsuarios", new { }, commandType: CommandType.StoredProcedure).ToList();
-
-                    if (resultadoBD == null || resultadoBD.Count == 0)
-                    {
-                        UsuarioRespuesta.Codigo = "-1";
-                        UsuarioRespuesta.Mensaje = "No hay Usuarios registrados.";
-                    }
-                    else
-                    {
-                        UsuarioRespuesta.Datos = resultadoBD;
-                        UsuarioRespuesta.Codigo = "1";
-                        UsuarioRespuesta.Mensaje = "Usuarios consultados con éxito.";
-                    }
-                    return Ok(UsuarioRespuesta);
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = result;
+                    return Ok(resp);
                 }
-            }
-            catch (SqlException ex)
-            {
-                return StatusCode(500, new { message = "Error al consultar Usuarios en la base de datos.", error = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Ocurrió un error inesperado al consultar Usuarios.", error = ex.Message });
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "No hay usuarios registrados en este momento";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
             }
         }
 
-
         [Authorize]
-        [Route("ConsultarUnUsuario")]
         [HttpGet]
-        public IActionResult ConsultarUnUsuario(int IdUsuario)
+        [Route("ConsultarUsuario")]
+        public async Task<IActionResult> ConsultarUsuario(int Consecutivo)
         {
-            UsuarioRespuesta UsuarioRespuesta = new UsuarioRespuesta();
-            try
+            if (!iComunesModel.EsAdministrador(User))
+                return StatusCode(403);
+
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                using (var db = new SqlConnection(iConfiguration.GetConnectionString("DefaultConnection")))
+                var result = await context.QueryFirstOrDefaultAsync<Usuario>("ConsultarUsuario", new { Consecutivo }, commandType: CommandType.StoredProcedure);
+
+                if (result != null)
                 {
-                    var result = db.Query<UsuarioEnt>("ObtenerUsuarioPorID",
-                        new { IdUsuario },
-                        commandType: CommandType.StoredProcedure).FirstOrDefault();
-
-                    if (result == null)
-                    {
-                        UsuarioRespuesta.Codigo = "-1";
-                        UsuarioRespuesta.Mensaje = "No hay Usuarios registrados.";
-                    }
-                    else
-                    {
-                        UsuarioRespuesta.Dato = result;
-                        UsuarioRespuesta.Codigo = "1";
-                        UsuarioRespuesta.Mensaje = "Usuario consultado con éxito.";
-                    }
-
-                    return Ok(UsuarioRespuesta);
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = result;
+                    return Ok(resp);
                 }
-            }
-            catch (SqlException ex)
-            {
-                return StatusCode(500, new { message = "Error al consultar el Usuario en la base de datos.", error = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Ocurrió un error inesperado al consultar el Usuario.", error = ex.Message });
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "No hay usuarios registrados en este momento";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
             }
         }
 
         [Authorize]
-        [Route("ActualizarUsuario")]
         [HttpPut]
-        public IActionResult ActualizarUsuario(UsuarioEnt usuario)
+        [Route("ActualizarUsuario")]
+        public async Task<IActionResult> ActualizarUsuario(Usuario ent)
         {
-            UsuarioRespuesta usuarioRespuesta = new UsuarioRespuesta();
-            try
-            {
-                using (var db = new SqlConnection(iConfiguration.GetConnectionString("DefaultConnection")))
-                {
-                    var result = db.Execute("ActualizarUsuario",
-                        new
-                        {
-                            usuario.IdUsuario,
-                            usuario.Identificacion,
-                            usuario.Nombre,
-                            usuario.Correo,
-                            usuario.Contrasenna,
-                            usuario.Estado,
-                            usuario.IdRol
-                        },
-                        commandType: CommandType.StoredProcedure);
+            if (!iComunesModel.EsAdministrador(User))
+                return StatusCode(403);
 
-                    if (result <= 0)
-                    {
-                        usuarioRespuesta.Codigo = "-1";
-                        usuarioRespuesta.Mensaje = "No se ha podido actualizar en la base de datos, intenta de nuevo";
-                        return BadRequest(usuarioRespuesta);
-                    }
-                    else
-                    {
-                        usuarioRespuesta.Codigo = "1";
-                        usuarioRespuesta.Mensaje = "Usuario actualizado con éxito.";
-                        return Ok(usuarioRespuesta);
-                    }
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var result = await context.ExecuteAsync("ActualizarUsuario", new { ent.Consecutivo, ent.Identificacion, ent.Nombre, ent.Correo, ent.IdRol }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = true;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "La información del usuario no se pudo actualizar";
+                    resp.Contenido = false;
+                    return Ok(resp);
                 }
             }
-            catch (SqlException ex)
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("CambiarEstadoUsuario")]
+        public async Task<IActionResult> CambiarEstadoUsuario(Usuario ent)
+        {
+            if (!iComunesModel.EsAdministrador(User))
+                return StatusCode(403);
+
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                return StatusCode(500, new { message = "Error al actualizar el Usuario en la base de datos.", error = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Ocurrió un error inesperado al actualizar el Usuario.", error = ex.Message });
+                var result = await context.ExecuteAsync("CambiarEstadoUsuario", new { ent.Consecutivo }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = true;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "El estado del usuario no se pudo actualizar";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
             }
         }
-        
-        
-        private string GenerarToken(int IdUsuario, int IdRol)
-        {
-            string SecretKey = iConfiguration.GetSection("settings:SecretKey").Value!;
-            List<Claim> claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.Name, IdUsuario.ToString()));
-            claims.Add(new Claim("IdRol", IdRol.ToString()));
 
+
+        [HttpGet]
+        [Route("RecuperarAcceso")]
+        public async Task<IActionResult> RecuperarAcceso(string Identificacion)
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var result = await context.QueryFirstOrDefaultAsync<Usuario>("ConsultarUsuarioIdentificacion", new { Identificacion }, commandType: CommandType.StoredProcedure);
+
+                if (result != null)
+                {
+                    var CodigoAleatorio = iComunesModel.GenerarCodigo();
+                    var Contrasenna = iComunesModel.Encrypt(CodigoAleatorio);
+                    var EsTemporal = true;
+                    var VigenciaTemporal = DateTime.Now.AddMinutes(30);
+
+                    await context.ExecuteAsync("ActualizarContrasenna",
+                        new { result.Consecutivo, Contrasenna, EsTemporal, VigenciaTemporal },
+                    commandType: CommandType.StoredProcedure);
+
+                    var ruta = Path.Combine(iHost.ContentRootPath, "FormatoCorreo.html");
+                    var html = System.IO.File.ReadAllText(ruta);
+
+                    html = html.Replace("@@Nombre", result.Nombre);
+                    html = html.Replace("@@Contrasenna", CodigoAleatorio);
+                    html = html.Replace("@@Vencimiento", VigenciaTemporal.ToString("dd/MM/yyyy HH:mm"));
+
+                    iComunesModel.EnviarCorreo(result.Correo!, "Recuperar Acceso Sistema", html);
+
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = result;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "No hay usuarios registrados con esa identificación";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
+            }
+        }
+
+
+        private string GenerarToken(int Consecutivo, int IdRol)
+        {
+            string SecretKey = iConfiguration.GetSection("Llaves:SecretKey").Value!;
+            List<Claim> claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Name, Consecutivo.ToString()));
+            claims.Add(new Claim("IdRol", IdRol.ToString()));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
@@ -247,18 +264,6 @@ namespace Proyecto_API.Controllers
                 signingCredentials: cred);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-
-
-        private bool EsAdministrador()
-        {
-            var userrol = User.Claims.Select(Claim => new {Claim.Type, Claim.Value}).
-                FirstOrDefault( x => x.Type == "IdRol")!.Value;
-
-
-            return (userrol == "1" ? true : false);
-
         }
 
     }

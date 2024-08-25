@@ -6,16 +6,18 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using Proyecto_API.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-string SecretKey = builder.Configuration["settings:SecretKey"]!.ToString();
+string SecretKey = builder.Configuration["Llaves:SecretKey"]!.ToString();
 
 
 builder.Services.AddControllers().AddJsonOptions(x => { x.JsonSerializerOptions.PropertyNamingPolicy = null; });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IComunesModel, ComunesModel>();
 
 
 builder.Services.AddSwaggerGen(options =>

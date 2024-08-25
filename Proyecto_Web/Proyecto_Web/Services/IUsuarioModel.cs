@@ -1,15 +1,22 @@
 ﻿using Proyecto_Web.Entities;
-using static Proyecto_Web.Entities.UsuarioEnt;
+using static Proyecto_Web.Entities.Usuario;
 
 namespace Proyecto_Web.Services
 {
     public interface IUsuarioModel
     {
-        Task<UsuarioRespuesta?> RegistrarUsuarioAsync(UsuarioEnt entidad);
-        Task<UsuarioRespuesta?> LoginUsuarioAsync(UsuarioEnt entidad);
-        Task<UsuarioRespuesta?> ConsultarUsuariosAsync();
-        Task<UsuarioRespuesta?> ConsultarUnUsuarioAsync(int IdUsuario);
-        Task<UsuarioRespuesta?> ActualizarUsuarioAsync(UsuarioEnt entidad);
-        Task<UsuarioRespuesta?> EliminarUsuarioAsync(int IdUsuario);
+        Respuesta RegistrarUsuario(Usuario ent);
+
+        Respuesta IniciarSesion(Usuario ent);
+
+        Respuesta ConsultarUsuarios();
+
+        Respuesta ConsultarUsuario(int Consecutivo);
+
+        Respuesta ActualizarUsuario(Usuario ent);
+
+        Respuesta RecuperarAcceso(string Identificacion);
+
+        Respuesta CambiarEstadoUsuario(Usuario ent);
     }
 }

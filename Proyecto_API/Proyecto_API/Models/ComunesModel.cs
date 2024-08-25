@@ -1,13 +1,52 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.Extensions.Configuration;
-using System.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using System.Net.Mail;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-namespace Proyecto_Web.Services
-{
 
-    public class ComunModel(IConfiguration iConfiguration) : IComunModel
+namespace Proyecto_API.Models
+{
+    public class ComunesModel(IConfiguration iConfiguration) : IComunesModel
     {
+        public bool EsAdministrador(ClaimsPrincipal User)
+        {
+            var userrol = User.Claims.Select(Claim => new { Claim.Type, Claim.Value })
+                .FirstOrDefault(x => x.Type == "IdRol")!.Value;
+
+            return (userrol == "1" ? true : false);
+        }
+
+        public string GenerarCodigo()
+        {
+            int length = 8;
+            const string valid = "ABCDEFGHIJKLMNOPQRSTUVWXYZ012456789";
+            StringBuilder res = new StringBuilder();
+            Random rnd = new Random();
+            while (0 < length--)
+            {
+                res.Append(valid[rnd.Next(valid.Length)]);
+            }
+            return res.ToString();
+        }
+
+        public void EnviarCorreo(string destino, string asunto, string contenido)
+        {
+            string cuenta = iConfiguration.GetSection("Llaves:CorreoEmail").Value!;
+            string contrasenna = iConfiguration.GetSection("Llaves:ClaveEmail").Value!;
+
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(cuenta);
+            message.To.Add(new MailAddress(destino));
+            message.Subject = asunto;
+            message.Body = contenido;
+            message.Priority = MailPriority.Normal;
+            message.IsBodyHtml = true;
+
+            SmtpClient client = new SmtpClient("smtp.office365.com", 587);
+            client.Credentials = new System.Net.NetworkCredential(cuenta, contrasenna);
+            client.EnableSsl = true;
+            client.Send(message);
+        }
 
         string SecretKey = iConfiguration.GetSection("Llaves:SecretKey").Value!;
 
@@ -64,5 +103,4 @@ namespace Proyecto_Web.Services
             }
         }
     }
-    }
-
+}
