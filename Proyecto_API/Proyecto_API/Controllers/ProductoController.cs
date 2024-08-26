@@ -22,7 +22,7 @@ namespace Proyecto_API.Controllers
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                var result = await context.ExecuteAsync("RegistrarProducto", new { ent.Descripcion, ent.Precio, ent.Cantidad, ent.Ruta_Imagen, ent.Estado, ent.IdCategoria }, commandType: CommandType.StoredProcedure);
+                var result = await context.ExecuteAsync("RegistrarProducto", new { ent.Descripcion, ent.Precio, ent.Cantidad, ent.Ruta_Imagen, ent.Estado}, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -85,8 +85,7 @@ namespace Proyecto_API.Controllers
                             producto.Precio,
                             producto.Cantidad,
                             producto.Ruta_Imagen,
-                            producto.Estado,
-                            producto.IdCategoria
+                            producto.Estado
                         },
                         commandType: CommandType.StoredProcedure);
 

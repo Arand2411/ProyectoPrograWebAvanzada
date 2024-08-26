@@ -8,7 +8,6 @@
         public int? Cantidad { get; set; }
         public string? Ruta_Imagen { get; set; }
         public char? Estado { get; set; }
-        public int? IdCategoria { get; set; }
 
 
         public class ProductoRespuesta

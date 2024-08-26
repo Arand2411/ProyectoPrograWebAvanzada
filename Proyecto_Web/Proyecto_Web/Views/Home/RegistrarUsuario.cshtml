@@ -1,71 +1,121 @@
 ﻿@model Proyecto_Web.Entities.Usuario
 
 @{
-    ViewData["Title"] = "Registro Usuario";
-    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+    Layout = null;
 }
 
-<div class="register-box">
-    <div class="card">
-        <div class="card-body register-card-body">
-            <p class="login-box-msg">Registro de Usuarios</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Registro Usuario</title>
+    <link rel="icon" href="~/img/logot.png" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/page/css/bootstrap.css">
+    <link rel="stylesheet" href="~/page/css/font-awesome.css">
+    <link rel="stylesheet" href="~/page/css/styleIndex.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa; /* Color de fondo opcional */
+        }
 
-            @if (ViewBag.msj != null)
-            {
-                <div class="alert alert-secondary" style="text-align:center" role="alert">
-                    @ViewBag.msj
-                </div>
-            }
+        .register-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Ajusta la altura para que ocupe toda la ventana */
+        }
 
-            @using (Html.BeginForm("RegistrarUsuario", "Home"))
-            {
-                <div class="input-group mb-3">
-                    @Html.TextBoxFor(m => m.Identificacion, new { @type = "text", @class = "form-control", @placeholder = "Identificación" })
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    @Html.TextBoxFor(m => m.Nombre, new { @type = "text", @class = "form-control", @placeholder = "Nombre" })
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control", @placeholder = "Correo Electrónico" })
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    @Html.TextBoxFor(m => m.Contrasenna, new { @type = "password", @class = "form-control", @placeholder = "Contraseña" })
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-8">
-                    </div>
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block">Procesar</button>
-                    </div>
-                </div>
-            }
+        .card {
+            width: 100%;
+            max-width: 400px; /* Ajusta el ancho máximo del contenedor */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff; /* Color de fondo del formulario */
+        }
 
-            <p class="mb-1">
-                <a href="@Url.Action("Recuperar Acceso","Home")">No recuerdo mi contraseña</a>
-            </p>
-            <p class="mb-0">
-                <a href="@Url.Action("Index","Home")" class="text-center">Quiero iniciar sesión</a>
-            </p>
+        .card-body {
+            padding: 2rem;
+        }
+
+        .alert {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container register-box">
+        <div class="card">
+            <div class="card-body register-card-body">
+                <p class="login-box-msg">Registro de Usuarios</p>
+
+                @if (ViewBag.msj != null)
+                {
+                    <div class="alert alert-secondary" style="text-align:center" role="alert">
+                        @ViewBag.msj
+                    </div>
+                }
+
+                @using (Html.BeginForm("RegistrarUsuario", "Home", FormMethod.Post))
+                {
+                    <div class="input-group mb-3">
+                        @Html.TextBoxFor(m => m.Identificacion, new { @type = "text", @class = "form-control", @placeholder = "Identificación", required = "required" })
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        @Html.TextBoxFor(m => m.Nombre, new { @type = "text", @class = "form-control", @placeholder = "Nombre", required = "required" })
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control", @placeholder = "Correo Electrónico", required = "required" })
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        @Html.TextBoxFor(m => m.Contrasenna, new { @type = "password", @class = "form-control", @placeholder = "Contraseña", required = "required" })
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+               
+                            <button type="submit" class="btn btn-primary btn-block">Procesar</button>
+                            
+                        
+                    </div>
+                    <br />
+                }
+
+                <p class="mb-1">
+                    <a href="@Url.Action("RecuperarAcceso", "Home")">No recuerdo mi contraseña</a>
+                </p>
+                <p class="mb-0">
+                    <a href="@Url.Action("Index", "Home")" class="text-center">Quiero iniciar sesión</a>
+                </p>
+            </div>
         </div>
     </div>
-</div>
+
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/js/sb-admin-2.min.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+</body>
+</html>

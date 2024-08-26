@@ -24,9 +24,9 @@ namespace Proyecto_Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegistrarProducto(Producto ent)
+        public IActionResult RegistrarProducto(Producto ent)
         {
-            var resp = await _iProductoModel.RegistrarProducto(ent);
+            var resp = _iProductoModel.RegistrarProducto(ent);
 
             if (resp.Codigo == 1)
             {
@@ -43,9 +43,9 @@ namespace Proyecto_Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ConsultarProductos()
+        public  IActionResult ConsultarProductos()
         {
-            var resp = await _iProductoModel.ConsultarProductos();
+            var resp = _iProductoModel.ConsultarProductos();
 
             if (resp.Codigo == 1)
             {
@@ -63,9 +63,9 @@ namespace Proyecto_Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ActualizarProducto(Producto ent)
+        public IActionResult ActualizarProducto(Producto ent)
         {
-            var respuestaModelo = await _iProductoModel.ActualizarProducto(ent);
+            var respuestaModelo =  _iProductoModel.ActualizarProducto(ent);
 
             if (respuestaModelo.Codigo == 1)
             {
@@ -82,9 +82,9 @@ namespace Proyecto_Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EliminarProducto(int idProducto)
+        public  IActionResult EliminarProducto(int idProducto)
         {
-            var respuestaModelo = await _iProductoModel.EliminarProducto(idProducto);
+            var respuestaModelo =  _iProductoModel.EliminarProducto(idProducto);
             if (respuestaModelo.Codigo == 1)
             {
                 return RedirectToAction("ConsultarProductos");

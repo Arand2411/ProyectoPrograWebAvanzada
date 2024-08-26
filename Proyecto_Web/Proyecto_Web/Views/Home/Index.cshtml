@@ -1,55 +1,101 @@
 @model Proyecto_Web.Entities.Usuario
 
 @{
-    ViewData["Title"] = "Inicio Sesión";
-    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+    Layout = null;
 }
 
-<div class="login-box">
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">Iniciar Sesión</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Eshop - eCommerce HTML5 Template</title>
+    <link rel="icon" href="~/img/logot.png" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/page/css/bootstrap.css">
+    <link rel="stylesheet" href="~/page/css/font-awesome.css">
+    <link rel="stylesheet" href="~/page/css/styleIndex.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa; /* Color de fondo opcional */
+        }
 
-            @if (ViewBag.msj != null)
-            {
-                <div class="alert alert-secondary" style="text-align:center" role="alert">
-                    @ViewBag.msj
-                </div>
-            }
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Ajusta la altura para que ocupe toda la ventana */
+        }
 
-            @using (Html.BeginForm("Index", "Home"))
-            {
-                <div class="input-group mb-3">
-                    @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control", @placeholder = "Correo Electrónico" })
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
+        .login-card {
+            width: 100%;
+            max-width: 400px; /* Ajusta el ancho máximo del contenedor */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff; /* Color de fondo del formulario */
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+       
+
+        .alert {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container login-container">
+        <div class="card o-hidden border-0 shadow-lg login-card">
+            <div class="card-body p-0">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Iniciar Sesión</h1>
+                    </div>
+                    @if (ViewBag.msj != null)
+                    {
+                        <div class="form-group">
+                            <div class="alert alert-secondary" role="alert">
+                                @ViewBag.msj
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    @Html.TextBoxFor(m => m.Contrasenna, new { @type = "password", @class = "form-control", @placeholder = "Contraseña" })
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
+                    }
+                    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+                    {
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Correo, new { @class = "form-control form-control-user", @placeholder = "Correo Electrónico", required = "required" })
+                            @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
                         </div>
+                        <div class="form-group">
+                            @Html.PasswordFor(m => m.Contrasenna, new { @class = "form-control form-control-user", @placeholder = "Contraseña", required = "required" })
+                            @Html.ValidationMessageFor(m => m.Contrasenna, "", new { @class = "text-danger" })
+                        </div>
+                        <button type="submit" class="btn btn-tienda btn-user btn-block">Ingresar</button>
+                    }
+                    <hr>
+                    <div class="text-center">
+                        <a class="small" href="@Url.Action("RecuperarAcceso", "Home")">¿Olvidó su contraseña?</a>
+                    </div>
+                    <div class="text-center">
+                        <a class="small" href="@Url.Action("RegistrarUsuario", "Home")">¿No estás registrado? Regístrate aquí</a>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-8">
-                    </div>
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block">Procesar</button>
-                    </div>
-                </div>
-            }
-
-            <p class="mb-1">
-                <a href="@Url.Action("RecuperarAcceso","Home")">No recuerdo mi contraseña</a>
-            </p>
-            <p class="mb-0">
-                <a href="@Url.Action("RegistrarUsuario","Home")" class="text-center">Quiero registrarme</a>
-            </p>
+            </div>
         </div>
     </div>
-</div>
+
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/js/sb-admin-2.min.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+</body>
+</html>
