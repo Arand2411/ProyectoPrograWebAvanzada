@@ -10,26 +10,31 @@
     <div class="col-md-6">
         <form asp-action="RegistrarProducto">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
                 <label asp-for="DescripcionProducto" class="control-label"></label>
                 <input asp-for="DescripcionProducto" class="form-control" />
                 <span asp-validation-for="DescripcionProducto" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="PrecioUnitario" class="control-label"></label>
                 <input asp-for="PrecioUnitario" class="form-control" />
                 <span asp-validation-for="PrecioUnitario" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Cantidad" class="control-label"></label>
                 <input asp-for="Cantidad" class="form-control" />
                 <span asp-validation-for="Cantidad" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Imagen" class="control-label"></label>
                 <input asp-for="Imagen" class="form-control" />
                 <span asp-validation-for="Imagen" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Estado" class="control-label"></label>
                 <input asp-for="Estado" class="form-control" />
@@ -37,12 +42,23 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="IdCategoria" class="control-label"></label>
-                <input asp-for="IdCategoria" class="form-control" />
+                <select asp-for="IdCategoria" class="form-select">
+                    <option value="">Seleccione una categoria</option>
+                    <option value="1">Componentes</option>
+                    <option value="2">Perifericos</option>
+                    <option value="3">Accesorios</option>
+                    <option value="4">Computadoras</option>
+                </select>
                 <span asp-validation-for="IdCategoria" class="text-danger"></span>
             </div>
-           
-            <div class="form-group text-center">
+
+            <br />
+            <br />
+            <br />
+
+
+            <!-- Botón de Registrar centrado -->
+            <div class="form-group text-center mt-3">
                 <input type="submit" value="Registrar" class="btn btn-primary" />
             </div>
         </form>
@@ -56,7 +72,7 @@
         @if (ViewBag.Success != null && ViewBag.Message != null)
         {
             <text>
-                            var success = '@ViewBag.Success';
+                                        var success = '@ViewBag.Success';
             var message = '@ViewBag.Message';
 
             // Convertir el valor de success en un booleano

@@ -67,7 +67,6 @@ namespace Proyecto_Web.Models
 
 
 
-
         public Respuesta ActualizarProducto(Producto ent)
         {
             using (httpClient)
@@ -80,7 +79,7 @@ namespace Proyecto_Web.Models
                 var resp = httpClient.PutAsync(url, body).Result;
 
                 if (resp.IsSuccessStatusCode)
-                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result;
                 else
                     return new Respuesta();
             }

@@ -5,17 +5,19 @@ using System.Text.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Proyecto_Web.Models;
+
 
 namespace Proyecto_Web.Controllers
 {
-    public class ProductoController : Controller
-    {
-        private readonly IProductoModel _iProductoModel;
 
-        public ProductoController(IProductoModel iProductoModel)
-        {
-            _iProductoModel = iProductoModel;
-        }
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public class ProductoController(IProductoModel iProductoModel) : Controller
+    {
 
         [HttpGet]
         public IActionResult RegistrarProducto()
@@ -26,7 +28,7 @@ namespace Proyecto_Web.Controllers
         [HttpPost]
         public IActionResult RegistrarProducto(Producto ent)
         {
-            var resp = _iProductoModel.RegistrarProducto(ent);
+            var resp = iProductoModel.RegistrarProducto(ent);
 
             if (resp.Codigo == 1)
             {
@@ -39,13 +41,13 @@ namespace Proyecto_Web.Controllers
                 ViewBag.Message = resp.Mensaje;
             }
 
-            return View();
+            return RedirectToAction("ConsultarProducto", "Producto");
         }
 
         [HttpGet]
-        public  IActionResult ConsultarProducto()
+        public IActionResult ConsultarProducto()
         {
-            var resp = _iProductoModel.ConsultarProducto();
+            var resp = iProductoModel.ConsultarProducto();
 
             if (resp.Codigo == 1)
             {
@@ -57,15 +59,25 @@ namespace Proyecto_Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult ActualizarProducto()
+        public IActionResult ActualizarProducto(int q)
         {
-            return View();
+            var resp = iProductoModel.ConsultarUnProducto(q);
+
+            if (resp.Codigo == 1)
+            {
+                var datos = JsonSerializer.Deserialize<Producto>((JsonElement)resp.Contenido!);
+                return View(datos);
+            }
+
+            return View(new Producto());
         }
+
+
 
         [HttpPost]
         public IActionResult ActualizarProducto(Producto ent)
         {
-            var respuestaModelo =  _iProductoModel.ActualizarProducto(ent);
+            var respuestaModelo = iProductoModel.ActualizarProducto(ent);
 
             if (respuestaModelo.Codigo == 1)
             {
@@ -78,13 +90,13 @@ namespace Proyecto_Web.Controllers
                 ViewBag.Message = respuestaModelo.Mensaje;
             }
 
-            return View(ent);
+            return RedirectToAction("ConsultarProducto", "Producto");
         }
 
         [HttpPost]
-        public  IActionResult EliminarProducto(int IdProducto)
+        public IActionResult EliminarProducto(int IdProducto)
         {
-            var respuestaModelo =  _iProductoModel.EliminarProducto(IdProducto);
+            var respuestaModelo = iProductoModel.EliminarProducto(IdProducto);
             if (respuestaModelo.Codigo == 1)
             {
                 return RedirectToAction("ConsultarProductos");
@@ -92,8 +104,9 @@ namespace Proyecto_Web.Controllers
             else
             {
                 ViewBag.MsjPantalla = respuestaModelo.Mensaje;
-                return View();
+                return RedirectToAction("ConsultarProducto", "Producto");
             }
         }
     }
 }
+
