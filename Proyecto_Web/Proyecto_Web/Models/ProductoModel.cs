@@ -13,12 +13,45 @@ namespace Proyecto_Web.Models
 
     public class ProductoModel(HttpClient httpClient, IConfiguration iConfiguration, IHttpContextAccessor iContextAccesor) : IProductoModel
     {
-
-        public Respuesta ConsultarProductos()
+        public Respuesta RegistrarProducto(Producto ent)
         {
             using (httpClient)
             {
-                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/ConsultarProductos";
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/RegistrarProducto";
+                JsonContent body = JsonContent.Create(ent);
+                var resp = httpClient.PostAsync(url, body).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
+
+
+        public Respuesta ConsultarProducto()
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/ConsultarProducto";
+                string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var resp = httpClient.GetAsync(url).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+        }
+
+
+        public Respuesta ConsultarUnProducto(int IdProducto)
+        {
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/ConsultarUnProducto?IdProducto=" + IdProducto;
                 string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -33,46 +66,46 @@ namespace Proyecto_Web.Models
 
 
 
-        public  Respuesta RegistrarProducto(Producto ent)
+
+
+        public Respuesta ActualizarProducto(Producto ent)
         {
-            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/RegistrarProducto";
-            JsonContent body = JsonContent.Create(ent);
-            var resp = httpClient.PostAsync(url, body).Result;
-            if (resp.IsSuccessStatusCode)
-                return resp.Content.ReadFromJsonAsync<Respuesta>().Result;
-            return null;
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/ActualizarProducto";
+                string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+                JsonContent body = JsonContent.Create(ent);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var resp = httpClient.PutAsync(url, body).Result;
+
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
         }
 
-
-      
-
-        public  Respuesta ActualizarProducto(Producto ent)
+        public Respuesta EliminarProducto(int IdProducto)
         {
-            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/ActualizarProducto";
-            JsonContent body = JsonContent.Create(ent);
-            var resp = httpClient.PutAsync(url, body).Result;
+            using (httpClient)
+            {
+                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/EliminarProducto?IdProducto=" + IdProducto;
+                string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
-            if (resp.IsSuccessStatusCode)
-                return resp.Content.ReadFromJsonAsync<Respuesta>().Result;
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var resp = httpClient.DeleteAsync(url).Result;
 
-            return null;
+                if (resp.IsSuccessStatusCode)
+                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+                else
+                    return new Respuesta();
+            }
+
+
+
         }
 
-
-
-        public  Respuesta EliminarProducto(int IdProducto)
-        {
-            string url = iConfiguration["Llaves:UrlApi"] + $"api/Producto/EliminarProducto?IdProducto=" + IdProducto;
-            var resp = httpClient.DeleteAsync(url).Result;
-            if (resp.IsSuccessStatusCode)
-                return resp.Content.ReadFromJsonAsync<Respuesta>().Result;
-
-            return null;
-        }
-
-
-       
     }
-
 }
 

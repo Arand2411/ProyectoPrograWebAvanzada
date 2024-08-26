@@ -39,7 +39,7 @@ namespace Proyecto_Web.Controllers
                 HttpContext.Session.SetString("NOMBRE", datos!.Nombre!);
                 HttpContext.Session.SetString("ROL", datos!.IdRol.ToString());
                 HttpContext.Session.SetInt32("CONSECUTIVO", datos!.Consecutivo);
-                return RedirectToAction("ConsultarProductos", "Producto");
+                return RedirectToAction("ConsultarProducto", "Producto");
             }
 
             ViewBag.msj = resp.Mensaje;

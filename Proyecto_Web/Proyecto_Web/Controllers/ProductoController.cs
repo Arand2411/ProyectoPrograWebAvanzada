@@ -43,9 +43,9 @@ namespace Proyecto_Web.Controllers
         }
 
         [HttpGet]
-        public  IActionResult ConsultarProductos()
+        public  IActionResult ConsultarProducto()
         {
-            var resp = _iProductoModel.ConsultarProductos();
+            var resp = _iProductoModel.ConsultarProducto();
 
             if (resp.Codigo == 1)
             {
@@ -82,9 +82,9 @@ namespace Proyecto_Web.Controllers
         }
 
         [HttpPost]
-        public  IActionResult EliminarProducto(int idProducto)
+        public  IActionResult EliminarProducto(int IdProducto)
         {
-            var respuestaModelo =  _iProductoModel.EliminarProducto(idProducto);
+            var respuestaModelo =  _iProductoModel.EliminarProducto(IdProducto);
             if (respuestaModelo.Codigo == 1)
             {
                 return RedirectToAction("ConsultarProductos");

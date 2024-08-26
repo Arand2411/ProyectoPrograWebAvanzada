@@ -6,7 +6,8 @@ namespace Proyecto_Web.Services
     public interface IProductoModel
     {
         Respuesta RegistrarProducto(Producto ent);
-        Respuesta ConsultarProductos();
+        Respuesta ConsultarProducto();
+        Respuesta ConsultarUnProducto(int IdProducto);
         Respuesta ActualizarProducto(Producto ent);
         Respuesta EliminarProducto(int IdProducto);
     }

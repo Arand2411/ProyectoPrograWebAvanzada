@@ -6,23 +6,24 @@ using System.Data;
 using static Proyecto_API.Entities.Producto;
 using Dapper;
 using Microsoft.Extensions.Configuration;
+using Proyecto_API.Models;
 
 namespace Proyecto_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductoController(IConfiguration iConfiguration) : ControllerBase
+    public class ProductoController(IConfiguration iConfiguration, IComunesModel iComunesModel) : ControllerBase
     {
         [AllowAnonymous]
         [HttpPost]
         [Route("RegistrarProducto")]
         public async Task<IActionResult> RegistrarProducto(Producto ent)
         {
-            ProductoRespuesta resp = new ProductoRespuesta();
+            Respuesta resp = new Respuesta();
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                var result = await context.ExecuteAsync("RegistrarProducto", new { ent.Descripcion, ent.Precio, ent.Cantidad, ent.Ruta_Imagen, ent.Estado}, commandType: CommandType.StoredProcedure);
+                var result = await context.ExecuteAsync("RegistrarProducto", new { ent.DescripcionProducto, ent.PrecioUnitario, ent.Cantidad, ent.Imagen, ent.Estado, ent.IdCategoria }, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -42,13 +43,13 @@ namespace Proyecto_API.Controllers
         }
 
         [HttpGet]
-        [Route("ConsultarProductos")]
-        public async Task<IActionResult> ConsultarProductos()
+        [Route("ConsultarProducto")]
+        public async Task<IActionResult> ConsultarProducto()
         {
-            ProductoRespuesta resp = new ProductoRespuesta();
+            Respuesta resp = new Respuesta();
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                var result = await context.QueryAsync<Producto>("ConsultarProductos", new { }, commandType: CommandType.StoredProcedure);
+                var result = await context.QueryAsync<Producto>("ConsultarProducto", new { }, commandType: CommandType.StoredProcedure);
 
                 if (result.Count() > 0)
                 {
@@ -67,95 +68,101 @@ namespace Proyecto_API.Controllers
             }
         }
 
-        [AllowAnonymous]
-        [Route("ActualizarProducto")]
-        [HttpPut]
-        public IActionResult ActualizarProducto(Producto producto)
-        {
-            var productoRespuesta = new ProductoRespuesta();
-            try
-            {
-                using (var db = new SqlConnection(iConfiguration.GetConnectionString("DefaultConnection")))
-                {
-                    var result = db.Execute("ActualizarProducto",
-                        new
-                        {
-                            producto.IdProducto,
-                            producto.Descripcion,
-                            producto.Precio,
-                            producto.Cantidad,
-                            producto.Ruta_Imagen,
-                            producto.Estado
-                        },
-                        commandType: CommandType.StoredProcedure);
 
-                    if (result <= 0)
-                    {
-                        productoRespuesta.Codigo = -1;
-                        productoRespuesta.Mensaje = "No se ha podido actualizar en la base de datos, intenta de nuevo";
-                        return BadRequest(productoRespuesta);
-                    }
-                    else
-                    {
-                        productoRespuesta.Codigo = 1;
-                        productoRespuesta.Mensaje = "Producto actualizado con éxito.";
-                        return Ok(productoRespuesta);
-                    }
+        [AllowAnonymous]
+        [Route("ConsultarUnProducto")]
+        [HttpGet]
+        public async Task <IActionResult> ConsultarUnProducto(int idProducto)
+        {
+            var resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var result = await context.QueryFirstOrDefaultAsync<Producto>("ObtenerProductoPorID", new { idProducto }, commandType: CommandType.StoredProcedure);
+
+                if (result != null)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = result;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "No hay usuarios registrados en este momento";
+                    resp.Contenido = false;
+                    return Ok(resp);
                 }
             }
-            catch (SqlException ex)
+
+        }
+
+
+
+        //[Authorize]
+        [HttpPut]
+        [Route("ActualizarProducto")]
+        public async Task<IActionResult> ActualizarProducto(Producto ent)
+        {
+            //if (!iComunesModel.EsAdministrador(User))
+            //    return StatusCode(403);
+
+            Respuesta resp = new Respuesta();
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                return StatusCode(500, new { message = "Error al actualizar el producto en la base de datos.", error = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Ocurrió un error inesperado al actualizar el producto.", error = ex.Message });
+                var result = await context.ExecuteAsync("ActualizarProducto", new { ent.IdProducto, ent.DescripcionProducto, ent.PrecioUnitario, ent.Cantidad, ent.Imagen, ent.Estado, ent.IdCategoria }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = true;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "El producto no se pudo actualizar";
+                    resp.Contenido = false;
+                    return Ok(resp);
+                }
             }
         }
 
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [Route("EliminarProducto")]
         [HttpDelete]
-        public IActionResult EliminarProducto(int IdProducto)
+        public IActionResult EliminarProducto(int idProducto)
         {
-            var productoRespuesta = new ProductoRespuesta();
-            try
-            {
-                using (var db = new SqlConnection(iConfiguration.GetConnectionString("DefaultConnection")))
-                {
-                    var result = db.Execute("EliminarProducto",
-                        new
-                        {
-                            IdProducto
-                        },
-                        commandType: CommandType.StoredProcedure);
+            var resp = new Respuesta();
 
-                    if (result <= 0)
-                    {
-                        productoRespuesta.Codigo = -1;
-                        productoRespuesta.Mensaje = "No se ha podido eliminar el proveedor en la base de datos, intenta de nuevo";
-                        return BadRequest(productoRespuesta);
-                    }
-                    else
-                    {
-                        productoRespuesta.Codigo = 1;
-                        productoRespuesta.Mensaje = "Proveedor eliminado con éxito.";
-                        return Ok(productoRespuesta);
-                    }
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
+
+            {
+                var result = context.Execute("EliminarProducto", new { IdProducto = idProducto }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = true;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "El producto no se pudo eliminar";
+                    resp.Contenido = false;
+                    return Ok(resp);
                 }
             }
-            catch (SqlException ex)
-            {
-
-                return StatusCode(500, new { message = "Error al eliminar el proveedor en la base de datos.", error = ex.Message });
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, new { message = "Ocurrió un error inesperado al eliminar el proveedor.", error = ex.Message });
-            }
         }
+
 
     }
 }
+
+
+

@@ -15,12 +15,12 @@
             <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                 <div class="card h-100">
                     <div style="text-align:center">
-                        <img class="card-img-top" src="@item.Ruta_Imagen" alt="Imagen del producto"
+                        <img class="card-img-top" src="@item.Imagen" alt="Imagen del producto"
                              style="width: 100%; height: 150px; object-fit: contain; object-position: center; margin-top: 20px;">
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">@item.Descripcion</h5>
-                        <p class="card-text">Precio: ¢ @item.Precio</p>
+                        <h5 class="card-title">@item.DescripcionProducto</h5>
+                        <p class="card-text">Precio: ¢ @item.PrecioUnitario</p>
                         <p class="card-text">Cantidad: @item.Cantidad</p>
                     </div>
                     <div class="card-footer text-center">
@@ -38,4 +38,4 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="~/js/ConsultaProductos.js"></script>
+<script src="~/js/ConsultaProducto.js"></script>
