@@ -43,13 +43,13 @@ namespace Proyecto_API.Controllers
         }
 
         [HttpGet]
-        [Route("ConsultarProducto")]
-        public async Task<IActionResult> ConsultarProducto()
+        [Route("ConsultarComponentes")]
+        public async Task<IActionResult> ConsultarComponentes()
         {
             Respuesta resp = new Respuesta();
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
             {
-                var result = await context.QueryAsync<Producto>("ConsultarProducto", new { }, commandType: CommandType.StoredProcedure);
+                var result = await context.QueryAsync<Producto>("ConsultarComponentes", new { }, commandType: CommandType.StoredProcedure);
 
                 if (result.Count() > 0)
                 {
@@ -61,15 +61,119 @@ namespace Proyecto_API.Controllers
                 else
                 {
                     resp.Codigo = 0;
-                    resp.Mensaje = "No hay Productos";
+                    resp.Mensaje = "No hay Componentes";
                     resp.Contenido = false;
                     return Ok(resp);
                 }
             }
         }
 
+		[HttpGet]
+		[Route("ConsultarPerifericos")]
+		public async Task<IActionResult> ConsultarPerifericos()
+		{
+			Respuesta resp = new Respuesta();
+			using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
+			{
+				var result = await context.QueryAsync<Producto>("ConsultarPerifericos", new { }, commandType: CommandType.StoredProcedure);
 
-        [AllowAnonymous]
+				if (result.Count() > 0)
+				{
+					resp.Codigo = 1;
+					resp.Mensaje = "Exito!!!";
+					resp.Contenido = result;
+					return Ok(resp);
+				}
+				else
+				{
+					resp.Codigo = 0;
+					resp.Mensaje = "No hay Perifericos";
+					resp.Contenido = false;
+					return Ok(resp);
+				}
+			}
+		}
+
+		[HttpGet]
+		[Route("ConsultarAccesorios")]
+		public async Task<IActionResult> ConsultarAccesorios()
+		{
+			Respuesta resp = new Respuesta();
+			using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
+			{
+				var result = await context.QueryAsync<Producto>("ConsultarAccesorios", new { }, commandType: CommandType.StoredProcedure);
+
+				if (result.Count() > 0)
+				{
+					resp.Codigo = 1;
+					resp.Mensaje = "Exito!!!";
+					resp.Contenido = result;
+					return Ok(resp);
+				}
+				else
+				{
+					resp.Codigo = 0;
+					resp.Mensaje = "No hay Accesorios";
+					resp.Contenido = false;
+					return Ok(resp);
+				}
+			}
+		}
+
+		[HttpGet]
+		[Route("ConsultarComputadoras")]
+		public async Task<IActionResult> ConsultarComputadoras()
+		{
+			Respuesta resp = new Respuesta();
+			using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
+			{
+				var result = await context.QueryAsync<Producto>("ConsultarComputadoras", new { }, commandType: CommandType.StoredProcedure);
+
+				if (result.Count() > 0)
+				{
+					resp.Codigo = 1;
+					resp.Mensaje = "Exito!!!";
+					resp.Contenido = result;
+					return Ok(resp);
+				}
+				else
+				{
+					resp.Codigo = 0;
+					resp.Mensaje = "No hay Computadoras";
+					resp.Contenido = false;
+					return Ok(resp);
+				}
+			}
+		}
+
+		[HttpGet]
+		[Route("ConsultarProducto")]
+		public async Task<IActionResult> ConsultarProducto()
+		{
+			Respuesta resp = new Respuesta();
+			using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
+			{
+				var result = await context.QueryAsync<Producto>("ConsultarProducto", new { }, commandType: CommandType.StoredProcedure);
+
+				if (result.Count() > 0)
+				{
+					resp.Codigo = 1;
+					resp.Mensaje = "Exito!!!";
+					resp.Contenido = result;
+					return Ok(resp);
+				}
+				else
+				{
+					resp.Codigo = 0;
+					resp.Mensaje = "No hay Productos";
+					resp.Contenido = false;
+					return Ok(resp);
+				}
+			}
+		}
+
+
+		[AllowAnonymous]
         [Route("ConsultarUnProducto")]
         [HttpGet]
         public async Task <IActionResult> ConsultarUnProducto(int idProducto)

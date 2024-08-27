@@ -46,8 +46,76 @@ namespace Proyecto_Web.Models
             }
         }
 
+		public Respuesta ConsultarComponentes()
+		{
+			using (httpClient)
+			{
+				string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/ConsultarComponentes";
+				string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
 
-        public Respuesta ConsultarUnProducto(int IdProducto)
+				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+				var resp = httpClient.GetAsync(url).Result;
+
+				if (resp.IsSuccessStatusCode)
+					return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+				else
+					return new Respuesta();
+			}
+		}
+
+		public Respuesta ConsultarPerifericos()
+		{
+			using (httpClient)
+			{
+				string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/ConsultarPerifericos";
+				string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+				var resp = httpClient.GetAsync(url).Result;
+
+				if (resp.IsSuccessStatusCode)
+					return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+				else
+					return new Respuesta();
+			}
+		}
+
+		public Respuesta ConsultarAccesorios()
+		{
+			using (httpClient)
+			{
+				string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/ConsultarAccesorios";
+				string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+				var resp = httpClient.GetAsync(url).Result;
+
+				if (resp.IsSuccessStatusCode)
+					return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+				else
+					return new Respuesta();
+			}
+		}
+
+		public Respuesta ConsultarComputadoras()
+		{
+			using (httpClient)
+			{
+				string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Producto/ConsultarComputadoras";
+				string token = iContextAccesor.HttpContext!.Session.GetString("TOKEN")!.ToString();
+
+				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+				var resp = httpClient.GetAsync(url).Result;
+
+				if (resp.IsSuccessStatusCode)
+					return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
+				else
+					return new Respuesta();
+			}
+		}
+
+
+		public Respuesta ConsultarUnProducto(int IdProducto)
         {
             using (httpClient)
             {
