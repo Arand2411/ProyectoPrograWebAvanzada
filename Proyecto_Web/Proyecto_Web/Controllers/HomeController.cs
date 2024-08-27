@@ -165,11 +165,14 @@ namespace Proyecto_Web.Controllers
             var resp = iUsuarioModel.CambiarEstadoUsuario(ent);
 
             if (resp.Codigo == 1)
+            {
                 return RedirectToAction("ConsultarUsuarios", "Home");
+            }
 
-            ViewBag.msj = resp.Mensaje;
-            return View();
+            TempData["ErrorMessage"] = resp.Mensaje;
+            return RedirectToAction("ConsultarUsuarios", "Home");
         }
+
 
     }
 }
