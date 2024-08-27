@@ -14,6 +14,8 @@ builder.Services.AddScoped<IUsuarioModel, UsuarioModel>();
 builder.Services.AddSingleton<IComunModel, ComunModel>();
 builder.Services.AddScoped<IProductoModel, ProductoModel>();
 builder.Services.AddScoped<IRolModel, RolModel>();
+builder.Services.AddScoped<ICarritoModel, CarritoModel>();
+
 
 builder.Services.AddDistributedMemoryCache();
 
