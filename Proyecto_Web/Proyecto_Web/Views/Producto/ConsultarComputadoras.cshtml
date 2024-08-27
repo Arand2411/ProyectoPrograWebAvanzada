@@ -1,12 +1,12 @@
-﻿@model List<Proyecto_Web.Entities.Producto>
+﻿@model IEnumerable<Proyecto_Web.Entities.Producto>
 
 @{
-    ViewData["Title"] = "Productos";
+    ViewData["Title"] = "ConsultarComputadoras";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="card-body register-card-body">
-    <h4 class="text-center">Productos Tecnológicos</h4>
+    <h4 class="text-center">Computadoras</h4>
     <hr><br />
 
     <div class="row">
@@ -30,7 +30,7 @@
                         <a href="@Url.Action("ActualizarProducto", "Producto", new { IdProducto = item.IdProducto })" class="btn btn-outline-primary">
                             <i class="fa fa-edit"></i> Editar
                         </a>
-                        
+
 
                         <button type="button" class="btn btn-danger btn-sm passingID" data-toggle="modal" data-target="#exampleModal"
                                 data-id="@item.IdProducto" data-name="@item.IdProducto">
@@ -53,7 +53,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @using (Html.BeginForm("EliminarProducto", "Producto", FormMethod.Post))
+            @using (Html.BeginForm("Delete", "Producto", FormMethod.Post))
             {
                 <div class="modal-body">
                     <input type="hidden" id="IdProducto" name="IdProducto" value="">
@@ -61,7 +61,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger">Procesar</button>
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
                 </div>
             }
         </div>
@@ -74,9 +74,7 @@
     <script>
         $(".passingID").click(function () {
             $("#IdProducto").val($(this).data('id'));
-            $("#Question").text("¿Desea eliminar el producto: " + $(this).data('name') + "?");
+            $("#Question").text("¿Desea eliminar la computadora: " + $(this).data('name') + "?");
         });
     </script>
 }
-
-

@@ -1,7 +1,7 @@
-﻿@model List<Proyecto_Web.Entities.Producto>
+﻿@model IEnumerable<Proyecto_Web.Entities.Producto>
 
 @{
-    ViewData["Title"] = "Productos";
+    ViewData["Title"] = "ConsultarComponentes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -30,12 +30,13 @@
                         <a href="@Url.Action("ActualizarProducto", "Producto", new { IdProducto = item.IdProducto })" class="btn btn-outline-primary">
                             <i class="fa fa-edit"></i> Editar
                         </a>
-                        
+
 
                         <button type="button" class="btn btn-danger btn-sm passingID" data-toggle="modal" data-target="#exampleModal"
                                 data-id="@item.IdProducto" data-name="@item.IdProducto">
                             <i class="fa fa-trash"></i>
                         </button>
+
                     </div>
                     }
                 </div>
@@ -78,5 +79,3 @@
         });
     </script>
 }
-
-

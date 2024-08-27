@@ -58,7 +58,63 @@ namespace Proyecto_Web.Controllers
             return View(new List<Producto>());
         }
 
-        [HttpGet]
+		[HttpGet]
+		public IActionResult ConsultarComponentes()
+		{
+			var resp = iProductoModel.ConsultarComponentes();
+
+			if (resp.Codigo == 1)
+			{
+				var datos = JsonSerializer.Deserialize<List<Producto>>((JsonElement)resp.Contenido!);
+				return View(datos!.Where(x => x.IdProducto != HttpContext.Session.GetInt32("IDPRODUCTO")).ToList());
+			}
+
+			return View(new List<Producto>());
+		}
+
+		[HttpGet]
+		public IActionResult ConsultarPerifericos()
+		{
+			var resp = iProductoModel.ConsultarPerifericos();
+
+			if (resp.Codigo == 1)
+			{
+				var datos = JsonSerializer.Deserialize<List<Producto>>((JsonElement)resp.Contenido!);
+				return View(datos!.Where(x => x.IdProducto != HttpContext.Session.GetInt32("IDPRODUCTO")).ToList());
+			}
+
+			return View(new List<Producto>());
+		}
+
+		[HttpGet]
+		public IActionResult ConsultarAccesorios()
+		{
+			var resp = iProductoModel.ConsultarAccesorios();
+
+			if (resp.Codigo == 1)
+			{
+				var datos = JsonSerializer.Deserialize<List<Producto>>((JsonElement)resp.Contenido!);
+				return View(datos!.Where(x => x.IdProducto != HttpContext.Session.GetInt32("IDPRODUCTO")).ToList());
+			}
+
+			return View(new List<Producto>());
+		}
+
+		[HttpGet]
+		public IActionResult ConsultarComputadoras()
+		{
+			var resp = iProductoModel.ConsultarComputadoras();
+
+			if (resp.Codigo == 1)
+			{
+				var datos = JsonSerializer.Deserialize<List<Producto>>((JsonElement)resp.Contenido!);
+				return View(datos!.Where(x => x.IdProducto != HttpContext.Session.GetInt32("IDPRODUCTO")).ToList());
+			}
+
+			return View(new List<Producto>());
+		}
+
+		[HttpGet]
         public IActionResult ActualizarProducto(int IdProducto)
         {
             var resp = iProductoModel.ConsultarUnProducto(IdProducto);

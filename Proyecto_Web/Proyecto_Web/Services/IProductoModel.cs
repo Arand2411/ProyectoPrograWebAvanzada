@@ -10,5 +10,13 @@ namespace Proyecto_Web.Services
         Respuesta ConsultarUnProducto(int IdProducto);
         Respuesta ActualizarProducto(Producto ent);
         Respuesta EliminarProducto(int IdProducto);
-    }
+
+		Respuesta ConsultarComponentes();
+
+		Respuesta ConsultarPerifericos();
+
+		Respuesta ConsultarAccesorios();
+
+		Respuesta ConsultarComputadoras();
+	}
 }
