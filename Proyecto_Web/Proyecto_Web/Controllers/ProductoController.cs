@@ -59,9 +59,9 @@ namespace Proyecto_Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult ActualizarProducto(int q)
+        public IActionResult ActualizarProducto(int IdProducto)
         {
-            var resp = iProductoModel.ConsultarUnProducto(q);
+            var resp = iProductoModel.ConsultarUnProducto(IdProducto);
 
             if (resp.Codigo == 1)
             {
@@ -99,7 +99,7 @@ namespace Proyecto_Web.Controllers
             var respuestaModelo = iProductoModel.EliminarProducto(IdProducto);
             if (respuestaModelo.Codigo == 1)
             {
-                return RedirectToAction("ConsultarProductos");
+                return RedirectToAction("ConsultarProducto", "Producto"); ;
             }
             else
             {

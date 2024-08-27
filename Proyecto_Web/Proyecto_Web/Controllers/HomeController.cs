@@ -116,13 +116,20 @@ namespace Proyecto_Web.Controllers
         }
 
 
-
         [FiltroSesiones]
         [HttpGet]
         public IActionResult ActualizarUsuario(int q)
         {
             var roles = iRolModel.ConsultarRoles();
-            ViewBag.Roles = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)roles.Contenido!);
+
+            if (roles.Codigo == 1)
+            {
+                ViewBag.Roles = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)roles.Contenido!);
+            }
+            else
+            {
+                ViewBag.Roles = new List<SelectListItem>();
+            }
 
             var resp = iUsuarioModel.ConsultarUsuario(q);
 
@@ -134,6 +141,7 @@ namespace Proyecto_Web.Controllers
 
             return View(new Usuario());
         }
+
 
         [FiltroSesiones]
         [HttpPost]

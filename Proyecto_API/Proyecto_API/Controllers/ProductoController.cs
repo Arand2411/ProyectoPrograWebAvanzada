@@ -100,13 +100,13 @@ namespace Proyecto_API.Controllers
 
 
 
-        //[Authorize]
+        [Authorize]
         [HttpPut]
         [Route("ActualizarProducto")]
         public async Task<IActionResult> ActualizarProducto(Producto ent)
         {
-            //if (!iComunesModel.EsAdministrador(User))
-            //    return StatusCode(403);
+            if (!iComunesModel.EsAdministrador(User))
+               return StatusCode(403);
 
             Respuesta resp = new Respuesta();
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))

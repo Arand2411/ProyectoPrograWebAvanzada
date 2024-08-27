@@ -55,9 +55,14 @@
                     </div>
                 </div>
 
-                @Html.Label("Perfil")
-                <div class="input-group mb-3">
-                    @Html.DropDownListFor(m => m.IdRol, ViewBag.Roles as List<SelectListItem>, new { @class = "form-control" })
+                <div class="form-group">
+                    <select asp-for="IdRol" class="form-select">
+                        <option value="">Seleccione un rol </option>
+                        <option value="1">Administrador</option>
+                        <option value="2">Usuario</option>
+           \
+                    </select>
+                    <span asp-validation-for="IdRol" class="text-danger"></span>
                 </div>
 
                 <div class="row">
