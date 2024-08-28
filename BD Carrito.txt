@@ -45,3 +45,27 @@ BEGIN
 	END
 
 END
+
+USE [PPAW]
+GO
+
+CREATE PROCEDURE [dbo].[ConsultarCarrito]
+    @ConsecutivoUsuario INT
+AS
+BEGIN
+    SELECT  C.IdCarrito,
+            C.ConsecutivoUsuario,
+            C.IdProducto,
+            P.DescripcionProducto,
+            P.PrecioUnitario,
+            C.Cantidad,
+            C.FechaCarrito,
+            (C.Cantidad * P.PrecioUnitario) AS 'SubTotal',
+            (C.Cantidad * P.PrecioUnitario) * 0.13 AS 'Impuesto',
+            (C.Cantidad * P.PrecioUnitario) + ((C.Cantidad * P.PrecioUnitario) * 0.13) AS 'Total'
+    FROM    tCarrito C
+    INNER JOIN tProducto P ON C.IdProducto = P.IdProducto
+    WHERE   C.ConsecutivoUsuario = @ConsecutivoUsuario
+END
+
+
