@@ -56,7 +56,7 @@ function MostrarMensajeAccion(titulo, texto, icono) {
     confirmButtonText: "Aceptar",
   }).then((result) => {
     if (result.isConfirmed) {
-      window.location.href = "/Producto/ConsultarProducto";
+        window.location.href = "/Producto/ConsultarProducto";
     }
   });
 

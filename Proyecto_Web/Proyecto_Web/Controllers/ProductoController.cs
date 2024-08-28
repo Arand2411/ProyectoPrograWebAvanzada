@@ -41,7 +41,7 @@ namespace Proyecto_Web.Controllers
                 ViewBag.Message = resp.Mensaje;
             }
 
-            return RedirectToAction("ConsultarProducto", "Producto");
+            return RedirectToAction("Producto", "ConsultarProducto");
         }
 
         [HttpGet]
