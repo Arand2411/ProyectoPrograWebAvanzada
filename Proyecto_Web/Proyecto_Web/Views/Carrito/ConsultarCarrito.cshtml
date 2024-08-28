@@ -1,5 +1,39 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<Proyecto_Web.Entities.Carrito>
+
 @{
+    ViewData["Title"] = "ConsultarCarrito";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@{
+    var totalCarrito = Model.Sum(item => item.Total).ToString("F0");
+}
+
+
+<div class="card-body register-card-body">
+    <h4 class="text-center">Carrito de Compras</h4>
+    <hr><br />
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Producto: @item.IdProducto</h5>
+                        <p class="card-text">Cantidad: @item.Cantidad</p>
+                        <p class="card-text">Subtotal: ¢ @item.SubTotal.ToString("F0")</p>
+                        <p class="card-text">Impuesto: ¢ @item.Impuesto.ToString("F0")</p>
+                        <p class="card-text">Total: ¢ @item.Total.ToString("F0")</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="text-center mt-4">
+        <h4>Monto Total a Pagar : ¢ @totalCarrito</h4>
+    </div>
+
+
+</div>

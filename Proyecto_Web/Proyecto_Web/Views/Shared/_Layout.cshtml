@@ -98,6 +98,13 @@
 						<div class="barra-derecha d-flex justify-content-end">
 							<!-- Iconos y Contenido Derecho -->
 							<div class="barra-iconos d-flex align-items-center">
+
+								<div class="icono-individual">
+									<a href="@Url.Action("ConsultarCarrito", "Carrito")" class="icono-individual">
+										<i class="fa fa-shopping-cart" aria-hidden="true"></i> Ver Carrito
+									</a>
+								</div>
+
 								
 								<div class="icono-individual">
 									<a href="#" class="icono-individual"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Usuarios</a>
@@ -127,7 +134,7 @@
 								<div class="form-inline ml-3">
 									<i style="margin-right:10px" class="fa fa-tags"></i>  @Context.Session.GetString("Cantidad")!.ToString()
 									<i style="margin-right:10px; margin-left:10px" class="fa fa-credit-card"></i>
-									¢ @decimal.Parse(Context.Session.GetString("SubTotal")!.ToString()).ToString("N2") + imp
+									¢ @decimal.Parse(Context.Session.GetString("SubTotal")!.ToString()).ToString("F0") + imp
 								</div>
 
 						
