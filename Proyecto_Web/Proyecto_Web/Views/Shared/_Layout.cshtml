@@ -104,16 +104,19 @@
 								</div>
 
 								
-								<div class="icono-individual">
-									<a href="#" class="icono-individual"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Usuarios</a>
-								</div>
-
 								@if (Context.Session.GetString("ROL")!.ToString() == "1")
 								{
 									<div class="icono-individual">
 										<a href="@Url.Action("ConsultarUsuarios", "Home")" class="icono-individual"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Usuarios</a>
 									</div>
 								}
+								else
+								{
+									<div class="icono-individual">
+										<a href="#" class="icono-individual"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Usuarios</a>
+									</div>
+								}
+
 								@* <div class="icono-individual shopping">
 								<a href="#" class="icono-individual"><i class="ti-bag"></i> <span class="total-count">2</span></a>
 								</div> *@
