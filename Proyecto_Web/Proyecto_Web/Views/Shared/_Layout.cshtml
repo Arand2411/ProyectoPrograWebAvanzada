@@ -64,6 +64,9 @@
 		<!-- Barra Superior -->
 		<div class="topbar">
 			<div class="container">
+				<div class="logo">
+					<a href="@Url.Action("ConsultarProducto", "Producto")"><img src="~/page/images/logo.png" alt="logo"></a>
+				</div>
 				<div class="row">
 					<div class="col-lg-4 col-md-12 col-12">
 					</div>
@@ -76,28 +79,23 @@
 		</div>
 		<!-- Fin Barra Superior -->
 		<div class="middle-inner">
+
 			<div class="container">
+
 				<div class="row align-items-center">
 					<div class="col-lg-2 col-md-2 col-12">
 						<!-- Logo y Formulario de Búsqueda -->
 						<div class="logo-search">
 							<!-- Logo -->
-							<div class="logo">
-								<a href="@Url.Action("ConsultarProducto", "Producto")"><img src="~/page/images/logo.png" alt="logo"></a>
-							</div>
-							<!-- Formulario de Búsqueda -->
-							<div class="search-bar-top">
-								<form class="search-form">
-									<input name="search" placeholder="Buscar productos aquí..." type="search">
-									<button class="btnn"><i class="ti-search"></i></button>
-								</form>
-							</div>
+
+
 						</div>
 					</div>
 					<div class="col-lg-10 col-md-10 col-12">
 						<div class="barra-derecha d-flex justify-content-end">
 							<!-- Iconos y Contenido Derecho -->
 							<div class="barra-iconos d-flex align-items-center">
+
 
 								<div class="icono-individual">
 									<a href="@Url.Action("ConsultarCarrito", "Carrito")" class="icono-individual">
@@ -109,8 +107,15 @@
 								<div class="icono-individual">
 									<a href="#" class="icono-individual"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Usuarios</a>
 								</div>
+
+								@if (Context.Session.GetString("ROL")!.ToString() == "1")
+								{
+									<div class="icono-individual">
+										<a href="@Url.Action("ConsultarUsuarios", "Home")" class="icono-individual"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Usuarios</a>
+									</div>
+								}
 								@* <div class="icono-individual shopping">
-									<a href="#" class="icono-individual"><i class="ti-bag"></i> <span class="total-count">2</span></a>
+								<a href="#" class="icono-individual"><i class="ti-bag"></i> <span class="total-count">2</span></a>
 								</div> *@
 								<div class="single-bar">
 									<div class="right-content">
@@ -122,7 +127,7 @@
 												<li><i class="ti-pencil"></i><a href="@Url.Action("RegistrarProducto", "Producto")">Registrar Producto</a></li>
 											}
 										</ul>
-										
+
 									</div>
 								</div>
 								<ul class="nav-nav ml-auto">
@@ -131,6 +136,7 @@
 									</div>
 								</ul>
 
+
 								<div class="form-inline ml-3">
 									<i style="margin-right:10px" class="fa fa-tags"></i>  @Context.Session.GetString("Cantidad")!.ToString()
 									<i style="margin-right:10px; margin-left:10px" class="fa fa-credit-card"></i>
@@ -138,6 +144,7 @@
 								</div>
 
 						
+
 							</div>
 						</div>
 					</div>
@@ -146,7 +153,9 @@
 
 			<!-- Encabezado Interior -->
 			<div class="header-inner">
+
 				<div class="container">
+
 					<div class="cat-nav-head">
 						<div class="row">
 
@@ -201,10 +210,9 @@
 							<h4>Información</h4>
 							<ul>
 								<li><a href="#">Sobre nosotros</a></li>
-								<li><a href="#">FAQ</a></li>
 								<li><a href="#">Términos y condiciones</a></li>
-								<li><a href="#">Contáctanos</a></li>
-								<li><a href="#">Ayuda</a></li>
+
+
 							</ul>
 						</div>
 						<!-- Fin Widget Individual -->
@@ -217,34 +225,13 @@
 								<li><a href="#">Métodos de pago</a></li>
 								<li><a href="#">Reembolso</a></li>
 								<li><a href="#">Devoluciones</a></li>
-								<li><a href="#">Envío</a></li>
-								<li><a href="#">Política de privacidad</a></li>
+
 							</ul>
 						</div>
 						<!-- Fin Widget Individual -->
 					</div>
 					<div class="col-lg-3 col-md-6 col-12">
 						<!-- Widget Individual -->
-						<div class="single-footer social">
-							<h4>Contáctanos</h4>
-							<!-- Widget Individual -->
-							<div class="contact">
-								<ul>
-									<li>Dirección de la tienda</li>
-									<li>Dirección de la tienda</li>
-									<li>Dirección de la tienda</li>
-									<li>info@eshop.com</li>
-									<li>+1 800 123 1234</li>
-								</ul>
-							</div>
-							<!-- Fin Widget Individual -->
-							<ul>
-								<li><a href="#"><i class="ti-facebook"></i></a></li>
-								<li><a href="#"><i class="ti-twitter"></i></a></li>
-								<li><a href="#"><i class="ti-flickr"></i></a></li>
-								<li><a href="#"><i class="ti-instagram"></i></a></li>
-							</ul>
-						</div>
 						<!-- Fin Widget Individual -->
 					</div>
 				</div>
