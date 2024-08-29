@@ -16,7 +16,7 @@ namespace Proyecto_Web.Controllers
 {
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public class ProductoController(IProductoModel iProductoModel) : Controller
+    public class ProductoController(IProductoModel iProductoModel, ICarritoModel iCarritoModel) : Controller
     {
 
         [HttpGet]
@@ -47,7 +47,23 @@ namespace Proyecto_Web.Controllers
         [HttpGet]
         public IActionResult ConsultarProducto()
         {
-            var resp = iProductoModel.ConsultarProducto();
+
+            var carritoActual = iCarritoModel.ConsultarCarrito();
+            if(carritoActual.Codigo == 1)
+            {
+                var datos = JsonSerializer.Deserialize<List<Carrito>>((JsonElement)carritoActual.Contenido!);
+				HttpContext.Session.SetString("SubTotal", datos!.Sum(x => x.SubTotal).ToString());
+				HttpContext.Session.SetString("Cantidad", datos!.Sum(x => x.Cantidad).ToString());
+				HttpContext.Session.SetString("Total", datos!.Sum(x => x.Total).ToString());
+			}
+			else
+			{
+				HttpContext.Session.SetString("SubTotal", "0");
+				HttpContext.Session.SetString("Cantidad", "0");
+				HttpContext.Session.SetString("Total", "0");
+			}
+
+			var resp = iProductoModel.ConsultarProducto();
 
             if (resp.Codigo == 1)
             {
@@ -61,6 +77,22 @@ namespace Proyecto_Web.Controllers
 		[HttpGet]
 		public IActionResult ConsultarComponentes()
 		{
+
+			var carritoActual = iCarritoModel.ConsultarCarrito();
+			if (carritoActual.Codigo == 1)
+			{
+				var datos = JsonSerializer.Deserialize<List<Carrito>>((JsonElement)carritoActual.Contenido!);
+				HttpContext.Session.SetString("SubTotal", datos!.Sum(x => x.SubTotal).ToString());
+				HttpContext.Session.SetString("Cantidad", datos!.Sum(x => x.Cantidad).ToString());
+				HttpContext.Session.SetString("Total", datos!.Sum(x => x.Total).ToString());
+			}
+			else
+			{
+				HttpContext.Session.SetString("SubTotal", "0");
+				HttpContext.Session.SetString("Cantidad", "0");
+				HttpContext.Session.SetString("Total", "0");
+			}
+
 			var resp = iProductoModel.ConsultarComponentes();
 
 			if (resp.Codigo == 1)
@@ -75,6 +107,22 @@ namespace Proyecto_Web.Controllers
 		[HttpGet]
 		public IActionResult ConsultarPerifericos()
 		{
+
+			var carritoActual = iCarritoModel.ConsultarCarrito();
+			if (carritoActual.Codigo == 1)
+			{
+				var datos = JsonSerializer.Deserialize<List<Carrito>>((JsonElement)carritoActual.Contenido!);
+				HttpContext.Session.SetString("SubTotal", datos!.Sum(x => x.SubTotal).ToString());
+				HttpContext.Session.SetString("Cantidad", datos!.Sum(x => x.Cantidad).ToString());
+				HttpContext.Session.SetString("Total", datos!.Sum(x => x.Total).ToString());
+			}
+			else
+			{
+				HttpContext.Session.SetString("SubTotal", "0");
+				HttpContext.Session.SetString("Cantidad", "0");
+				HttpContext.Session.SetString("Total", "0");
+			}
+
 			var resp = iProductoModel.ConsultarPerifericos();
 
 			if (resp.Codigo == 1)
@@ -89,6 +137,22 @@ namespace Proyecto_Web.Controllers
 		[HttpGet]
 		public IActionResult ConsultarAccesorios()
 		{
+
+			var carritoActual = iCarritoModel.ConsultarCarrito();
+			if (carritoActual.Codigo == 1)
+			{
+				var datos = JsonSerializer.Deserialize<List<Carrito>>((JsonElement)carritoActual.Contenido!);
+				HttpContext.Session.SetString("SubTotal", datos!.Sum(x => x.SubTotal).ToString());
+				HttpContext.Session.SetString("Cantidad", datos!.Sum(x => x.Cantidad).ToString());
+				HttpContext.Session.SetString("Total", datos!.Sum(x => x.Total).ToString());
+			}
+			else
+			{
+				HttpContext.Session.SetString("SubTotal", "0");
+				HttpContext.Session.SetString("Cantidad", "0");
+				HttpContext.Session.SetString("Total", "0");
+			}
+
 			var resp = iProductoModel.ConsultarAccesorios();
 
 			if (resp.Codigo == 1)
@@ -103,6 +167,22 @@ namespace Proyecto_Web.Controllers
 		[HttpGet]
 		public IActionResult ConsultarComputadoras()
 		{
+
+			var carritoActual = iCarritoModel.ConsultarCarrito();
+			if (carritoActual.Codigo == 1)
+			{
+				var datos = JsonSerializer.Deserialize<List<Carrito>>((JsonElement)carritoActual.Contenido!);
+				HttpContext.Session.SetString("SubTotal", datos!.Sum(x => x.SubTotal).ToString());
+				HttpContext.Session.SetString("Cantidad", datos!.Sum(x => x.Cantidad).ToString());
+				HttpContext.Session.SetString("Total", datos!.Sum(x => x.Total).ToString());
+			}
+			else
+			{
+				HttpContext.Session.SetString("SubTotal", "0");
+				HttpContext.Session.SetString("Cantidad", "0");
+				HttpContext.Session.SetString("Total", "0");
+			}
+
 			var resp = iProductoModel.ConsultarComputadoras();
 
 			if (resp.Codigo == 1)

@@ -1,0 +1,76 @@
+USE [PPAW]
+GO
+
+CREATE TABLE [dbo].[tCarrito](
+	[IdCarrito] [int] IDENTITY(1,1) NOT NULL,
+	[ConsecutivoUsuario] [int] NOT NULL,
+	[IdProducto] [int] NOT NULL,
+	[Cantidad] [int] NOT NULL,
+	[FechaCarrito] [datetime] NOT NULL,
+ CONSTRAINT [PK_tCarrito] PRIMARY KEY CLUSTERED 
+(
+	[IdCarrito] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+
+GO
+
+CREATE PROCEDURE [dbo].[RegistrarCarrito]
+	@ConsecutivoUsuario INT,
+	@IdProducto			INT,
+	@Cantidad			INT
+AS
+BEGIN
+
+	IF NOT	EXISTS(	SELECT	1 
+					FROM	tCarrito 
+					WHERE	ConsecutivoUsuario = @ConsecutivoUsuario
+						AND IdProducto = @IdProducto)
+	BEGIN
+	
+		INSERT INTO dbo.tCarrito (ConsecutivoUsuario,IdProducto,Cantidad,FechaCarrito)
+		VALUES (@ConsecutivoUsuario, @IdProducto, @Cantidad, GETDATE())
+
+	END
+	ELSE
+	BEGIN
+
+		UPDATE	dbo.tCarrito
+		SET		Cantidad = @Cantidad,
+				FechaCarrito = GETDATE()
+		WHERE	ConsecutivoUsuario = @ConsecutivoUsuario
+			AND IdProducto = @IdProducto
+
+	END
+
+END
+
+USE [PPAW]
+GO
+
+CREATE PROCEDURE [dbo].[ConsultarCarrito]
+    @ConsecutivoUsuario INT
+AS
+BEGIN
+    SELECT  C.IdCarrito,
+            C.ConsecutivoUsuario,
+            C.IdProducto,
+            P.DescripcionProducto,
+            P.PrecioUnitario,
+            C.Cantidad,
+            C.FechaCarrito,
+            (C.Cantidad * P.PrecioUnitario) AS 'SubTotal',
+            (C.Cantidad * P.PrecioUnitario) * 0.13 AS 'Impuesto',
+            (C.Cantidad * P.PrecioUnitario) + ((C.Cantidad * P.PrecioUnitario) * 0.13) AS 'Total'
+    FROM    tCarrito C
+    INNER JOIN tProducto P ON C.IdProducto = P.IdProducto
+    WHERE   C.ConsecutivoUsuario = @ConsecutivoUsuario
+END
+
+
+
+
+Jhoha
+
+
